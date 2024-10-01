@@ -25,7 +25,17 @@ export default function ArtistAdd() {
   const [listArtist, setListArtist] = useState(true);
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState('');
+  const [artistImage, setArtistImage] = useState<File | null>(null); 
 
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setArtistImage(e.target.files[0]); // Store the selected file
+    }
+  };
+
+  console.log(artistImage);
+  
 
   const handleChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setter(e.target.value);
@@ -37,6 +47,8 @@ export default function ArtistAdd() {
 
   const suggest = () => {
     const userToken = getCookie("userToken");
+  
+    // First, create the artist
     axios.post(
       "https://music-back-1s59.onrender.com/artist",
       {
@@ -50,11 +62,42 @@ export default function ArtistAdd() {
         }
       }
     )
-    .then(() => {
+    .then((data) => {
+      // Notify success
       messageApi.open({
         type: 'success',
         content: 'წარმატებით შექიმნა!',
       });
+  
+      // If an image is selected, upload it
+      if (artistImage) {
+        const formData = new FormData();
+        formData.append("file", artistImage); // Append the file to FormData
+  
+        axios.post(
+          `https://music-back-1s59.onrender.com/file?artistId=${data.data.id}`, 
+          formData, 
+          {
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+              'Content-Type': 'multipart/form-data' // Important for file upload
+            }
+          }
+        )
+        .then(() => {
+          messageApi.open({
+            type: 'success',
+            content: 'Image uploaded successfully!',
+          });
+        })
+        .catch(() => {
+          messageApi.error({
+            type: 'error',
+            content: 'Image upload failed!',
+          });
+        });
+      }
+  
       setTimeout(() => {
         setShowAddArtist(false);
         setListArtist(true);
@@ -63,10 +106,11 @@ export default function ArtistAdd() {
     .catch(() => {
       messageApi.error({
         type: 'error',
-        content: 'რატომ გავიხადე?',
+        content: 'Failed to create artist!',
       });
     });
   };
+  
 
   const searchArtist = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -155,7 +199,7 @@ export default function ArtistAdd() {
               />
               <Switch onChange={onChange} />
               <div className={styles.img}>
-                <input type="file" />
+              <input type="file" onChange={handleFileChange} />
                 <div className={styles.imageText}>
                   <span className={styles.iimg}>Travis Scott</span>
                   <span>Profile Photo</span>

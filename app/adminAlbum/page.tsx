@@ -29,11 +29,20 @@ export default function AdminAlbum() {
   const [search, setSearch] = useState<string>('');
   const [showList, setShowList] = useState<boolean>(true);
   const [showAdd, setShowAdd] = useState<boolean>(false);
+  const [artistImage, setArtistImage] = useState<File | null>(null); 
+
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setArtistImage(e.target.files[0]); // Store the selected file
+    }
+  };
+
 
   const suggest = async () => {
     const userToken = getCookie("userToken");
     try {
-      await axios.post(
+      const { data } = await axios.post(
         "https://music-back-1s59.onrender.com/album",
         {
           title: albumTitle,
@@ -51,7 +60,27 @@ export default function AdminAlbum() {
         type: 'success',
         content: 'წარმატებით შექიმნა!',
       });
-    } catch  {
+
+      if (artistImage && data?.id) {
+        const formData = new FormData();
+        formData.append("file", artistImage); // Append the file to FormData
+
+        await axios.post(
+          `https://music-back-1s59.onrender.com/file?artistId=${data.id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${userToken}`,
+              'Content-Type': 'multipart/form-data', // Important for file upload
+            },
+          }
+        );
+        messageApi.open({
+          type: 'success',
+          content: 'Image uploaded successfully!',
+        });
+      }
+    } catch (error) {
       messageApi.error({
         type: 'error',
         content: 'რატომ გავიხადე?',
@@ -59,7 +88,24 @@ export default function AdminAlbum() {
     }
   };
 
- 
+  useEffect(() => {
+    const userToken = Cookies.get("userToken") ?? null;
+
+    if (userToken) {
+      axios
+        .get('https://music-back-1s59.onrender.com/album', {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        })
+        .then((response) => {
+          setGetData(response.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching users:', error);
+        });
+    }
+  }, []);
   useEffect(() => {
     const userToken = Cookies.get("userToken") ?? null;
 
@@ -86,6 +132,9 @@ export default function AdminAlbum() {
     setShowList(false);
     setShowAdd(true);
   };
+
+
+  
 
   return (
     <>
@@ -196,6 +245,7 @@ export default function AdminAlbum() {
                   state="neutral"
                 />
                 <div className={styles.img}>
+                <input type="file" onChange={handleFileChange} />
                   <div className={styles.imageText}>
                     <span className={styles.iimg}>Travis Scott</span>
                     <span>Profile Photo</span>

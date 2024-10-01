@@ -21,9 +21,15 @@ export default function AdminMusic() {
     const [search123, setSearch1] = useState('');
     const [musicUrl, setMusicUrl] = useState('');
     const [artistId, setArtistId] = useState('');
-    const [showList, setShowList] = useState(true);
-
+    const [showList, setShowList] = useState(true)
+    const [artistImage, setArtistImage] = useState<File | null>(null); 
   
+  
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        setArtistImage(e.target.files[0]); // Store the selected file
+      }
+    };
 
     const albumname = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAlbumTitle(e.target.value);
@@ -36,9 +42,10 @@ export default function AdminMusic() {
     const artistIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setArtistId(e.target.value);
     };
-
     const suggest = () => {
         const userToken = getCookie("userToken");
+
+        // Step 1: Post the album information
         axios.post(
             "https://music-back-1s59.onrender.com/music",
             {
@@ -53,19 +60,48 @@ export default function AdminMusic() {
             }
         )
         .then((data) => {
-            console.log(data);
             messageApi.open({
                 type: 'success',
-                content: 'წარმატებით შექიმნა!',
+                content: 'Music created successfully!',
             });
+
+            // Step 2: If image is selected, upload it
+            if (artistImage) {
+                const formData = new FormData();
+                formData.append("file", artistImage); // Append the file to FormData
+
+                axios.post(
+                  `https://music-back-1s59.onrender.com/file?musicIds=${data.data.id}`, 
+                  formData, 
+                  {
+                    headers: {
+                      Authorization: `Bearer ${userToken}`,
+                      'Content-Type': 'multipart/form-data', // Important for file upload
+                    },
+                  }
+                )
+                .then(() => {
+                  messageApi.open({
+                    type: 'success',
+                    content: 'Image uploaded successfully!',
+                  });
+                })
+                .catch(() => {
+                  messageApi.error({
+                    type: 'error',
+                    content: 'Image upload failed!',
+                  });
+                });
+              }
         })
         .catch(() => {
             messageApi.error({
                 type: 'error',
-                content: 'რატომ გავიხადე?',
+                content: 'Failed to create music!',
             });
         });
     };
+
 
     useEffect(() => {
         const userToken = Cookies.get("userToken");
@@ -103,6 +139,7 @@ export default function AdminMusic() {
                                 <p className={styles.HeaderTitle}>Music</p>
                             </div>
                             <div className={styles.contaienrGroup}>
+
                                 <button onClick={click1} className={styles.btn1}>   <Icon height={"24px"} width={"24px"} name={"add"} isActive={false} onClick={() => { }} />Add Artists</button>
                                 <div className={styles.search}>
                                     <div className={styles.icon}>
@@ -194,8 +231,9 @@ export default function AdminMusic() {
                                     />
 
                                     <div className={styles.img}>
-
+                                    <input type="file" onChange={handleFileChange} />
                                         <div className={styles.imageText}>
+                                            
                                             <span className={styles.iimg}>Trakis Scott</span>
                                             <span>Profile Photo</span>
                                             <div className={styles.buttons}>
