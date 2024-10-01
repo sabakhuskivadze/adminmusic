@@ -2,6 +2,7 @@
 import Cookies from "js-cookie";
 import { useState, useEffect } from "react";
 import Image from "next/image"; // Import Image from next/image
+import Icon from "../Icon/Icon";
 import styles from "./ArtistCard.module.scss";
 import axios from "axios";
 

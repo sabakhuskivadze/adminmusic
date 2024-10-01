@@ -4,6 +4,7 @@
 .wrapper {
   display: flex;
   max-width: 1135px;
+  overflow-y: scroll;
 }
 
 .wrapperContent {

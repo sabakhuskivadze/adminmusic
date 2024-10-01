@@ -54,8 +54,8 @@ export default function RecentSearch(props: Props) {
     const handleRemove = (id: number) => {
         const userToken = Cookies.get("userToken");
 
-        if (props.id === id) {
-            localStorage.removeItem("searchData");
+        if (props.id === id && typeof window !== "undefined") {
+            localStorage.removeItem("searchData"); 
         }
 
         axios.get('https://music-back-1s59.onrender.com/users/me', {
@@ -74,24 +74,7 @@ export default function RecentSearch(props: Props) {
         });
     };
 
-    useEffect(() => {
-        const userToken = Cookies.get("userToken");
-
-        axios.get('https://music-back-1s59.onrender.com/users/me', {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-            },
-        }).then((r) => {
-            if (Array.isArray(r.data.playlists)) {
-                setData(r.data.playlists);
-            } else {
-                console.warn('Unexpected data structure:', r.data);
-                setData([]);
-            }
-        }).catch(() => {
-            console.log('Error fetching user data');
-        });
-    }, []);
+   
 
     return (
         <div className={styles.Recent}>
@@ -100,7 +83,7 @@ export default function RecentSearch(props: Props) {
                 <p className={styles.clearTitle}>Clear All</p>
             </div>
             {props.data?.length > 0 && props.data.map((item, index) => (
-                <div className={styles.RecentItems} key={item.id}> {/* Use unique ID for key */}
+                <div className={styles.RecentItems} key={item.id}> 
                     <div className={styles.RecentItemsGroup}>
                         <div className={styles.flexGroup}>
                             <div className={styles.ImgRecent}></div>
@@ -119,8 +102,6 @@ export default function RecentSearch(props: Props) {
                                 className={styles.remove}
                                 onClick={() => handleRemove(item.id)}
                             >
-                                {/* Add a remove icon or text */}
-                                Remove
                             </div>
                         </div>
                     </div>

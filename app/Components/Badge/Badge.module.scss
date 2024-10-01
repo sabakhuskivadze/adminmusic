@@ -1,0 +1,17 @@
+@import "../colors/Colors.scss";
+
+.badgeContent {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  color: $white;
+  cursor: pointer;
+  align-items: center;
+}
+
+.active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color:  $primary !important;
+}

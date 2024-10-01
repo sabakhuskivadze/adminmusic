@@ -45,36 +45,37 @@ const AsideMenu = () => {
     <div className={`${styles.aside} ${themeColor === 'dark' ? styles.darkAside : ''}`}>
       <div className={styles.siderContent}>
         <div className={styles.logo}>
-          <Icon width='72px' name={"FAZER"} isActive={false} onClick={() => { }} />
+          <Icon width='72px' name={"FAZER"} isActive={false} onClick={() => {}} />
         </div>
         <div className={styles.menuItems}>
-          <MenuItem
-            name={"artists"}
-            isActive={activeItem === "artists"}
-            onClick={() => handleMenuItemClick("artists", "http://localhost:3001/adminArtist")}
-          />
-          <MenuItem
-            name={"Users"}
-            isActive={activeItem === "Users"}
-            onClick={() => handleMenuItemClick("Users", "http://localhost:3001/userList")}
-          />
+        <MenuItem
+  name={"Artists"}
+  isActive={activeItem === "Artists"}
+  onClick={() => handleMenuItemClick("Artists", "/adminArtist")} // Use relative paths
+/>
+<MenuItem
+  name={"Users"}
+  isActive={activeItem === "Users"}
+  onClick={() => handleMenuItemClick("Users", "/userList")} // Use relative paths
+/>
 
-          <MenuItem
-            name={"Music"}
-            isActive={activeItem === "Music"}
-            onClick={() => handleMenuItemClick("Music", "http://localhost:3001/adminMusic")}
-          />
+<MenuItem
+  name={"Music"}
+  isActive={activeItem === "Musics"}
+  onClick={() => handleMenuItemClick("Musics", "/adminMusic")} // Use relative paths
+/>
 
-          <MenuItem
-            name={"Album"}
-            isActive={activeItem === "Album"}
-            onClick={() => handleMenuItemClick("Album", "http://localhost:3001/adminAlbum")}
-          />
+<MenuItem
+  name={"Albums"}
+  isActive={activeItem === "Albums"}
+  onClick={() => handleMenuItemClick("Albums", "/adminAlbum")} // Use relative paths
+/>
+
 
 
         </div>
       </div>
-
+      
       <div className={styles.lightDarkContainer}>
         <LightDark />
       </div>
