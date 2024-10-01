@@ -1,0 +1,27 @@
+.mainContent {
+  display: flex;
+}
+
+.default{
+  display: flex;
+  height: fit-content;
+}
+
+.static{
+  display: flex;
+  flex-direction: column;
+  background: #F7F7F7;
+  width: 100%;
+}
+.darkStatic{
+  background-color: #0E0E0E;
+}
+
+@media (max-width: 768px) {
+  .static{
+    background: #F7F7F7;
+    width: 100%;
+    height: 100vh;
+  }
+  
+}

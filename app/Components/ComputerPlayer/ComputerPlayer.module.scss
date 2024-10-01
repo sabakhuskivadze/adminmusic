@@ -1,0 +1,172 @@
+@import "../colors/Colors.scss";
+.inputRadio {
+  width: 475px;
+  color: $ComputerPlayerRadioInput;
+}
+
+.inputRadio2 {
+  width: 52px;
+  height: 2px;
+}
+
+.heart {
+  background-image: url("../../../public/Icons/Heart.svg");
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.audio {
+  background-image: url("../../../public/Images/frame.png");
+  width: 120px;
+  height: 24px;
+}
+
+.voice {
+  background-image: url("../../../public/Icons/soundIcon.svg");
+  width: 24px;
+  height: 24px;
+}
+
+.img {
+  background-image: url("../../../public/Images/img.png");
+  width: 48px;
+  height: 48px;
+}
+.computerPlayer {
+  background-color: $ComputerPlayer;
+  border-radius: 24px;
+  padding: 16px;
+  width: 1135px;
+  height: 80px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;               // Center it horizontally
+  transform: translateX(-50%); // Adjust for the width of the player
+  z-index: 1000;            // Ensure it stays on top of other components
+  margin: 0 auto;           // Remove any potential margin issues
+}
+
+
+.Text {
+  color: $white;
+}
+
+.Text2 {
+  color: $ComputerPlayerName;
+}
+
+.textConatiner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.voiceControl {
+  display: flex;
+  align-items: center;
+}
+
+.refresh {
+  background-image: url("../../../public/Icons/Repeat.svg");
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.shuffle {
+  background-image: url("../../../public/Icons/Shuffle.svg");
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.iconContainer2 {
+  display: flex;
+  align-items: center;
+}
+
+.textContainer {
+  display: flex;
+  gap: 32px;
+}
+
+.textGrid {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.artistInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.controls {
+  display: flex;
+  gap: 24px;
+}
+
+.controlBTN {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon{
+    cursor: pointer;
+}
+
+.current {
+  color: #fff;
+}
+ 
+.playInput {
+  width: 475px;
+  cursor: pointer;
+}
+
+.playInput:active {
+    cursor: grabbing;
+}
+
+.scroll {
+  display: flex;
+  gap: 4px;
+}
+
+.volume {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.voiceControl {
+  display: flex;
+  gap: 24px;
+}
+
+.switchBox {
+  display: flex;
+  gap: 16px;
+}
+
+.lightPlayer {
+  border: 1px solid #f1f1f1;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.lightCurrent{
+    color: black;
+}
+
+.lightText{
+    color: black;
+}

@@ -1,0 +1,41 @@
+@import '../colors/Colors.scss';
+.aside {
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  background-color: #FFF;
+  height: 100vh;
+  padding: 24px;
+}
+
+.siderContent {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.menuItems {  
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lightDarkContainer {
+  margin-top: auto; // Pushes LightDark to the bottom
+}
+
+@media screen and (max-width: 900px) {
+  .aside {
+    display: none;
+  }
+}
+
+.darkAside{
+  background-color: $DarkModeColor;
+  height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  width: 15%;
+  border:1px solid #262626;
+}

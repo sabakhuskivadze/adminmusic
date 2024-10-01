@@ -1,0 +1,58 @@
+@import '../colors/Colors.scss';
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  border-radius: 16px;
+}
+
+.menuText {
+  margin-left: 10px;
+  transition: color 0.3s;
+  color: #8F93A3;
+}
+
+.active {
+  border-radius: 16px;
+  background: #FFEFEF;
+}
+
+.active .menuText {
+  color: #FF5F5F;
+}
+
+.icon {
+  transition: color 0.3s;
+}
+
+.iconActive {
+  color: #FF5F5F;
+}
+
+.darkMenuItem .menuText {
+  color: #FFF;
+}
+
+.darkMenuItem .icon {
+  color: #FFF;
+}
+
+.active.darkMenuItem {
+  background: $DarkMenuItemsColor;
+}
+
+.active.darkMenuItem .menuText {
+  color: #FF5F5F;
+}
+
+.active.darkMenuItem .icon {
+  color: #FF5F5F;
+}

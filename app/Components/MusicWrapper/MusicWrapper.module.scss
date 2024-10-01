@@ -1,0 +1,47 @@
+@import "../colors/Colors.scss";
+
+
+.wrapper {
+  display: flex;
+  max-width: 1135px;
+}
+
+.wrapperContent {
+  display: flex;
+  padding: 16px 32px;
+  width: 100%;
+  gap: 16px;
+  flex-direction: column;
+  
+}
+
+.title {
+  color: var(--PrimaryTextCollorWHiteMode, $black);
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; 
+}
+
+.wrapperContent::-webkit-scrollbar {
+  display: none;
+}
+
+.content {
+  display: flex;
+  gap: 24px;
+}
+
+.content::-webkit-scrollbar{
+  display: none;
+}
+
+.darkWrapper .title{
+  color: #fff; 
+}
+
+@media (max-width: 768px) {
+
+  
+}

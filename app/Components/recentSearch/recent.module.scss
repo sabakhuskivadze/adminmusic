@@ -1,0 +1,72 @@
+.heart{
+    background-image: url('../../../public/Icons/Heart.svg');
+    width: 24px;
+    height: 24px;
+}
+
+.remove{
+    background-image: url('../../../public/Icons/plus-big.png');
+    width: 24px;
+    height: 24px;
+}
+
+.ImgRecent{
+    background-image: url('../../../public/Images/image\ 46.png');
+    width: 72px;
+    height: 72px;
+}
+
+.Recent{
+    max-width: 1135px;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.RecentTitleGroup{
+    display: flex;
+    justify-content: space-between;
+}
+
+.TitleRecent{
+    color: #fff;
+    font-size: 20px;
+}
+
+.clearTitle{
+    color: #898989;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.RecentItems{
+    max-width: 1135px;
+}   
+
+.RecentItemsGroup{
+    display: flex;
+    justify-content: space-between;
+}
+
+.flexGroup{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.iconGroup{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.name{
+    font-size: 16px;
+    color: #fff;
+}
+
+.songName{
+    font-size: 14px;
+    color: #898989;
+}

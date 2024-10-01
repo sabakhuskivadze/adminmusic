@@ -1,0 +1,71 @@
+.musicCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  
+}
+
+.musicPhoto1{
+  display: flex;
+  gap: 10px;
+}
+
+.musicPhoto img {
+  border-radius: 12px;
+}
+
+.musicInfo {
+  gap: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.author {
+  font-size: 18px;
+  color: #8f93a3;
+  color: var(--lSecondaryWhiteTExtCollorMode, #8f93a3);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; 
+  letter-spacing: -0.32px;
+}
+
+.songTitle {
+  color: var(--PrimaryTextCollorWHiteMode, #292929);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px; /* 150% */
+  letter-spacing: -0.32px;
+  text-transform: capitalize;
+}
+
+.musicWrap{
+  width: 168px;
+  height: 242px;
+}
+
+
+@media (max-width: 768px) {
+  .musicPhoto img {
+    width: 103px;
+    height: 103px;
+  }
+  .musicPhoto {
+    height: 103px;
+    width: 103px;
+  }
+  .musicWrap{
+    width: 120px;
+    height: 182px;
+  }
+}
+
+
+.darkMusicCard .songTitle{
+  color: #fff;
+}

@@ -1,0 +1,53 @@
+
+.button {
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FF5F5F;
+    cursor: pointer;
+}
+
+.Red {
+    width: 49px;
+    height: 48px;
+    padding: 16px;
+    gap: 10px;
+    border-radius: 33px;
+    background-color: #FF5F5F;
+}
+
+.Dark {
+    width: 153px;
+    height: 40px;
+    padding: 8px 16px 8px 16px;
+    gap: 8px;
+    border-radius: 12px;
+    background-color: #151515CC;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: -0.3199999928474426px;
+    text-align: left;
+}
+
+.White {
+    width: 64px;
+    height: 64px;
+    padding: 16px;
+    gap: 10px;
+    border-radius: 47px;
+    background-color: #FFFFFF;
+}
+
+.Black {
+    width: 40px;
+    height: 40px;
+    top: 20px;
+    left: 20px;
+    padding: 8px;
+    gap: 10px;
+    border-radius: 24px;
+    background-color: #212121;
+}

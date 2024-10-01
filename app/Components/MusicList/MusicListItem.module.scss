@@ -1,0 +1,76 @@
+@import "../colors/Colors.scss";
+
+
+.musiclistitem {
+    display: flex;
+    align-items: center;
+    background-color: $black; 
+    padding: 10px;
+    border-radius: 20px;
+    color: $white;
+    width: 360px;
+    height: 160px;
+  }
+  
+  .musicimage {
+    width: 128px;
+    height: 128px;
+    border-radius: 16px;
+    margin-right: 16px;
+  }
+  
+  .musicinfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 128px; 
+    flex-grow: 1;
+  }
+  
+  .songname {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: -0.3199999928474426px;
+    text-align: left;
+    color:$white;
+    margin-bottom: 4px;
+    width: 120px;
+    height: 24px;
+  }
+  
+  .artistname {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: -0.3199999928474426px;
+    text-align: left;
+    color: $TextSecondaryDarkMode;
+    width: 120px;
+    height: 18px;
+    margin-top: -45px;
+  }
+  
+  .rank {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 26px;
+    letter-spacing: -0.3199999928474426px;
+    text-align: left;
+    width: 60px;
+    height: 26px;
+    margin-bottom: 12px;
+  }
+  
+  .playbutton {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .playicon {
+    width: 56px;
+    height: 56px;
+    margin-top: 60px;
+  }
+  

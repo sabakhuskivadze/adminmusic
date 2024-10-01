@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  width: 193px;
+  padding: 4px;
+  align-items: flex-start;
+  gap: 4px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &.lightModeActive {
+    background-color: #f7f7f7;
+  }
+
+  &.darkModeActive {
+    background-color: #0e0e0e;
+  }
+}
+
+.dark,
+.light {
+  display: flex;
+  flex: 1;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-radius 0.3s ease;
+}
+
+.light {
+  background-color: var(--White-Container, #fff);
+
+}
+
+.dark {
+  color: #8A9399;
+}
+
+.light{
+  color: #898989;
+
+}
+
+.light.active{
+  color: #898989;
+}
+
+.noContainer {
+  background-color: transparent;
+  border: none;
+}
+
+.active {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.light.active {
+  border-radius: 8px;
+}
+
+.dark.active {
+  border-radius: 8px;
+}
+
+.active.lightText{
+  color: #898989;
+}
