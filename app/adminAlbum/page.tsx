@@ -10,33 +10,38 @@ import Button from '../Components/Button/Button';
 import Cookies from "js-cookie";
 
 type Artist = {
+  createdAt: ReactNode;
+  releaseDate: ReactNode;
+  title: any;
   id: number;
   firstName: string;
   lastName: string;
   biography: string;
 };
+
 export default function AdminAlbum() {
-  const [artistName, setArtistName] = useState("");
-  const [artistLastname, setArtistLastname] = useState("");
-  const [artistMusicIds, setArtistMusicIds] = useState("");
-  const [artistAlbumId, setArtistAlbumId] = useState("");
+  const [artistName, setArtistName] = useState<string>("");
+  const [artistLastname, setArtistLastname] = useState<string>("");
+  const [artistMusicIds, setArtistMusicIds] = useState<string>("");
+  const [artistAlbumId, setArtistAlbumId] = useState<string>("");
   const [themeColor, setThemeColor] = useState<string | null>(getCookie("theme") ?? null);
   const [albumTitle, setAlbumTitle] = useState<string>('');
   const [releaseDate1, setReleaseDate1] = useState<string>('');
   const [artistId, setArtistId] = useState<string>('');
   const [musicId, setMusicId] = useState<string>('');
   const [messageApi, contextHolder] = message.useMessage();
-  const [artistBiography, setArtistBiography] = useState("");
-  const [emails, setEmails] = useState("");
-  const [releaseDate, setReleaseDate] = useState('');
-  const [switchChecked, setSwitchChecked] = useState(false);
-  const [showAddArtist, setShowAddArtist] = useState(false);
-  const [listArtist, setListArtist] = useState(true);
+  const [artistBiography, setArtistBiography] = useState<string>("");
+  const [emails, setEmails] = useState<string>("");
+  const [releaseDate, setReleaseDate] = useState<string>('');
+  const [switchChecked, setSwitchChecked] = useState<boolean>(false);
+  const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
+  const [listArtist, setListArtist] = useState<boolean>(true);
   const [getData, setGetData] = useState<Artist[]>([]);
-  const [search, setSearch] = useState('');
-  const [searchData, setSearchData] = useState([]);
-  const [showList, setShowList] = useState(true)
-  const [showAdd, setShowAdd] = useState(false)
+  const [search, setSearch] = useState<string>('');
+  const [searchData, setSearchData] = useState<any[]>([]); // Consider a specific type instead of 'any'
+  const [showList, setShowList] = useState<boolean>(true);
+  const [showAdd, setShowAdd] = useState<boolean>(false);
+
   useEffect(() => {
     const updateTheme = () => {
       const newTheme = getCookie("theme");

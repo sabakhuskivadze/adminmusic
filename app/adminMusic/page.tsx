@@ -4,31 +4,31 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Aside, { getCookie } from '../Components/Aside/Aside';
 import Icon from '../Components/Icon/Icon';
-import TopChart from '../Components/TopChart/TopChart';
 import styles from './adminMusic.module.scss'
 import Cookies from "js-cookie";
 import Input from '../Components/Input/input'
 import Button from '../Components/Button/Button'
 export default function AdminMusic() {
     const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
-    const [artistName, setArtistName] = useState("")
-    const [artistLastname, setArtistLastname] = useState("")
-    const [artistBiography, setArtistBiography] = useState("")
-    const [emails, setEmails] = useState("")
-    const [albumTitle, setAlbumTitle] = useState('')
-    const [releaseDate, setReleaseDate] = useState('')
+    const [artistName, setArtistName] = useState("");
+    const [artistLastname, setArtistLastname] = useState("");
+    const [artistBiography, setArtistBiography] = useState("");
+    const [emails, setEmails] = useState("");
+    const [albumTitle, setAlbumTitle] = useState('');
+    const [releaseDate, setReleaseDate] = useState('');
     const [switchChecked, setSwitchChecked] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
-    const [showAddArtist, setShowaddArtist] = useState(false)
-    const [listArtist, setListArtist] = useState(true)
-    const [getData, setGetData] = useState([])
-    const [search123, setSearch1] = useState('')
-    const [searchData, setSearchData] = useState([])
-    const [musicUrl, setMusicUrl] = useState('')
-    const [artistId, setArtistId] = useState('')
-    const [showList, setShowList] = useState(true)
-    const [showAdd, setShowAdd] = useState(false)
-    const [data1,setData1] = useState([])
+    const [showAddArtist, setShowaddArtist] = useState(false);
+    const [listArtist, setListArtist] = useState(true);
+    const [getData, setGetData] = useState([]);
+    const [search123, setSearch1] = useState('');
+    const [searchData, setSearchData] = useState([]);
+    const [musicUrl, setMusicUrl] = useState('');
+    const [artistId, setArtistId] = useState('');
+    const [showList, setShowList] = useState(true);
+    const [showAdd, setShowAdd] = useState(false);
+    const [data1, setData1] = useState([]);
+
     useEffect(() => {
         const updateTheme = () => {
             const newTheme = getCookie("theme");

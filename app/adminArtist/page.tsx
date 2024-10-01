@@ -2,7 +2,6 @@
 import Aside, { getCookie } from '../Components/Aside/Aside'
 import styles from './artist.module.scss'
 import { useState, useEffect } from 'react'
-import TopChart from '../Components/TopChart/TopChart'
 import Icon from '../Components/Icon/Icon'
 import Input from '../Components/Input/input'
 import Button from '../Components/Button/Button'
@@ -18,7 +17,6 @@ type Artist = {
   lastName: string;
   biography: string;
 };
-
 export default function ArtistAdd() {
   const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
   const [artistName, setArtistName] = useState("");
