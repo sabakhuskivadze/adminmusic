@@ -54,7 +54,7 @@ export default function AdminMusic() {
                 content: 'წარმატებით შექიმნა!',
             });
         })
-        .catch((error) => {
+        .catch(() => {
             messageApi.error({
                 type: 'error',
                 content: 'რატომ გავიხადე?',

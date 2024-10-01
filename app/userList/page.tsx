@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import styles from './userList.module.scss'; // Remove if not used
 import axios from 'axios';
-import Aside, { getCookie } from '../Components/Aside/Aside';
+import Aside from '../Components/Aside/Aside';
 import Icon from '../Components/Icon/Icon';
 
 interface User {

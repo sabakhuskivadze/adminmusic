@@ -55,6 +55,8 @@ export default function ArtistAdd() {
     setEmails(e.target.value);
   };
 
+  console.log(emails,searchData);
+  
   
 
   const onChange = (checked: boolean) => {

@@ -46,9 +46,15 @@ export default function AdminAlbum() {
           },
         }
       );
-      message.success('წარმატებით შექიმნა!');
-    } catch (error) {
-      message.error('რატომ გავიხადე?');
+      messageApi.open({
+        type: 'success',
+        content: 'წარმატებით შექიმნა!',
+      });
+    } catch  {
+      messageApi.error({
+        type: 'error',
+        content: 'რატომ გავიხადე?',
+      });
     }
   };
 
