@@ -1,5 +1,5 @@
 "use client"
-import { message, Switch, Space } from 'antd';
+import { message, Space } from 'antd';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Aside, { getCookie } from '../Components/Aside/Aside';
@@ -13,13 +13,11 @@ export default function AdminMusic() {
     const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
     const [albumTitle, setAlbumTitle] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
-    const [getData, setGetData] = useState([]);
+    const [data1, setData1] = useState<any[]>([]); // Use a specific type if you have it
     const [search123, setSearch1] = useState('');
     const [musicUrl, setMusicUrl] = useState('');
     const [artistId, setArtistId] = useState('');
     const [showList, setShowList] = useState(true);
-    const [showAdd, setShowAdd] = useState(false);
-    const [data1, setData1] = useState([]);
 
     useEffect(() => {
         const updateTheme = () => {
@@ -28,49 +26,22 @@ export default function AdminMusic() {
         };
 
         updateTheme();
-
-        const themeInterval = setInterval(updateTheme, 0); // Adjust interval as needed
+        const themeInterval = setInterval(updateTheme, 0);
 
         return () => clearInterval(themeInterval);
     }, []);
 
+    const albumname = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAlbumTitle(e.target.value);
+    };
 
-    const albumname = (e: any) => {
-        setAlbumTitle(e.target.value)
-    }
+    const albumurl = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setMusicUrl(e.target.value);
+    };
 
-
-
-
-
-
-
-
-
- 
-
-
-
-
-    useEffect(() => {
-        const userToken = Cookies.get("userToken");
-
-        axios.get('https://music-back-1s59.onrender.com/artist', {
-            headers: {
-                Authorization: `Bearer ${userToken}`,
-            },
-        }).then((r) => {
-            setGetData(r.data)
-        })
-    }, [])
-
-    const albumurl = (e: any) => {
-        setMusicUrl(e.target.value)
-    }
-
-    const artistIdChange = (e: any) => {
-        setArtistId(e.target.value)
-    }
+    const artistIdChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setArtistId(e.target.value);
+    };
 
     const suggest = () => {
         const userToken = getCookie("userToken");
@@ -79,49 +50,44 @@ export default function AdminMusic() {
             {
                 name: albumTitle,
                 url: musicUrl,
-                artistId: Number(artistId)
+                artistId: Number(artistId),
             },
             {
                 headers: {
-                    Authorization: `Bearer ${userToken}`
-                }
+                    Authorization: `Bearer ${userToken}`,
+                },
             }
-
         )
-            .then((data) => {
-                console.log(data);
-                messageApi.open({
-                    type: 'success',
-                    content: 'წარმატებით შექიმნა!',
-                });
-            })
-            .catch((error) => {
-                messageApi.error({
-                    type: 'error',
-                    content: 'რატომ გავიხადე?',
-                });;
+        .then((data) => {
+            console.log(data);
+            messageApi.open({
+                type: 'success',
+                content: 'წარმატებით შექიმნა!',
             });
-
-    }
+        })
+        .catch((error) => {
+            messageApi.error({
+                type: 'error',
+                content: 'რატომ გავიხადე?',
+            });
+        });
+    };
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
-        const userToken = Cookies.get("userToken") ?? null;
-
+        const userToken = Cookies.get("userToken");
         if (userToken) {
             axios.get('https://music-back-1s59.onrender.com/music', {
                 headers: {
                     Authorization: `Bearer ${userToken}`,
                 },
             })
-                .then((response) => {
-                    setData1(response.data);
-                })
-                .catch((error) => {
-                    console.error('Error fetching users:', error);
-                });
+            .then((response) => {
+                setData1(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching users:', error);
+            });
         }
-    }
     }, []);
 
     const searchArtist1 = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,7 +96,6 @@ export default function AdminMusic() {
 
     const click1 = () => {
         setShowList(false);
-        setShowAdd(true);
     };
     return (
         <>

@@ -19,96 +19,41 @@ type Artist = {
   biography: string;
 };
 export default function AdminAlbum() {
-  const [artistName, setArtistName] = useState<string>("");
-  const [artistLastname, setArtistLastname] = useState<string>("");
-  const [themeColor, setThemeColor] = useState<string | null>(getCookie("theme") ?? null);
+  const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
+  const [messageApi, contextHolder] = message.useMessage();
   const [albumTitle, setAlbumTitle] = useState<string>('');
   const [releaseDate1, setReleaseDate1] = useState<string>('');
   const [artistId, setArtistId] = useState<string>('');
   const [musicId, setMusicId] = useState<string>('');
-  const [messageApi, contextHolder] = message.useMessage();
-  const [artistBiography, setArtistBiography] = useState<string>("");
-  const [emails, setEmails] = useState<string>("");
-  const [releaseDate, setReleaseDate] = useState<string>('');
-  const [switchChecked, setSwitchChecked] = useState<boolean>(false);
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState<string>('');
   const [showList, setShowList] = useState<boolean>(true);
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
-  useEffect(() => {
-    const updateTheme = () => {
-      const newTheme = getCookie("theme");
-      setThemeColor(newTheme ?? null);
-    };
-
-    updateTheme();
-    const themeInterval = setInterval(updateTheme, 1000); // Adjust interval as needed
-    return () => clearInterval(themeInterval);
-  }, []);
-
   const suggest = async () => {
-    // Check if we are in the browser before accessing localStorage
-    if (typeof window !== "undefined") {
-      const userToken = getCookie("userToken");
-      try {
-        await axios.post(
-          "https://music-back-1s59.onrender.com/album",
-          {
-            title: albumTitle,
-            releaseDate: releaseDate1,
-            musicIds: [Number(musicId)],
-            artistId: Number(artistId),
+    const userToken = getCookie("userToken");
+    try {
+      await axios.post(
+        "https://music-back-1s59.onrender.com/album",
+        {
+          title: albumTitle,
+          releaseDate: releaseDate1,
+          musicIds: [Number(musicId)],
+          artistId: Number(artistId),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-            },
-          }
-        );
-
-        messageApi.open({
-          type: 'success',
-          content: 'წარმატებით შექიმნა!',
-        });
-      } catch (error) {
-        const errorMessage = 'რატომ გავიხადე?';
-        messageApi.error({
-          type: 'error',
-          content: errorMessage,
-        });
-      }
+        }
+      );
+      message.success('წარმატებით შექიმნა!');
+    } catch (error) {
+      message.error('რატომ გავიხადე?');
     }
   };
 
-  const firstname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setArtistName(e.target.value);
-  };
-
-  const lastname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setArtistLastname(e.target.value);
-  };
-
-  const email = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmails(e.target.value);
-  };
-
-  const biographyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setArtistBiography(e.target.value);
-  };
-
-  const albumname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAlbumTitle(e.target.value);
-  };
-
-  const releaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setReleaseDate(e.target.value);
-  };
-
-  const onChange = (checked: boolean) => {
-    setSwitchChecked(checked);
-  };
-
+ 
   useEffect(() => {
     const userToken = Cookies.get("userToken") ?? null;
 
