@@ -3,7 +3,6 @@
 import React from "react";
 import { Cookie, Inter } from "next/font/google";
 import "./globals.css";
-import Player from "./Components/ComputerPlayer/ComputerPlayer"; // Import the Player component
 import { usePathname } from 'next/navigation';
 import { FloatButton } from 'antd';
 import Icon from "./Components/Icon/Icon";

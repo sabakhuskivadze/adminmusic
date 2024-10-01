@@ -5,15 +5,20 @@ import styles from './userList.module.scss';
 import axios from 'axios';
 import Aside, { getCookie } from '../Components/Aside/Aside';
 import Icon from '../Components/Icon/Icon';
-
+interface User {
+    id: string;
+    name: string;
+    email: string;
+    lastLogin: string;
+}
 export default function UserList() {
-    const [themeColor, setThemeColor] = useState<string | null>(getCookie("theme") ?? null);
-    const [getData, setGetData] = useState<any[]>([]); // Adjust type as needed
+    const [themeColor, setThemeColor] = useState<string | null>(Cookies.get("theme") ?? null);
+    const [getData, setGetData] = useState<User[]>([]); // Adjusted type to User[]
     const [search, setSearch] = useState("");
 
     useEffect(() => {
         const updateTheme = () => {
-            const newTheme = getCookie("theme") ?? null;
+            const newTheme = Cookies.get("theme") ?? null;
             setThemeColor(newTheme);
         };
 
