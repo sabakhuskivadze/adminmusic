@@ -6,9 +6,9 @@ import axios from "axios";
 import { setCookie } from "../helper/cookie";
 import Image from 'next/image'; // Import Image component
 
-type Props = {};
 
-const Login = (props: Props) => {
+
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

@@ -19,13 +19,9 @@ type Artist = {
 export default function ArtistAdd() {
   const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
   const [artistName, setArtistName] = useState("");
-  const [artistLastname, setArtistLastname] = useState("");
-  const [artistMusicIds, setArtistMusicIds] = useState("");
-  const [artistAlbumId, setArtistAlbumId] = useState("");
+  const [artistLastname, setArtistLastname] = useState("")
   const [artistBiography, setArtistBiography] = useState("");
   const [emails, setEmails] = useState("");
-  const [albumTitle, setAlbumTitle] = useState('');
-  const [releaseDate, setReleaseDate] = useState('');
   const [switchChecked, setSwitchChecked] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [showAddArtist, setShowAddArtist] = useState(false);
@@ -59,13 +55,7 @@ export default function ArtistAdd() {
     setEmails(e.target.value);
   };
 
-  const albumname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAlbumTitle(e.target.value);
-  };
-
-  const releaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setReleaseDate(e.target.value);
-  };
+  
 
   const onChange = (checked: boolean) => {
     setSwitchChecked(checked);
@@ -86,7 +76,7 @@ export default function ArtistAdd() {
         }
       }
     )
-    .then((data) => {
+    .then(() => {
       messageApi.open({
         type: 'success',
         content: 'წარმატებით შექიმნა!',
@@ -96,7 +86,7 @@ export default function ArtistAdd() {
         setListArtist(true);
       }, 2000);
     })
-    .catch((error) => {
+    .catch(() => {
       messageApi.error({
         type: 'error',
         content: 'რატომ გავიხადე?',

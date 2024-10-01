@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import { Cookie, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { usePathname } from 'next/navigation';
 import { FloatButton } from 'antd';

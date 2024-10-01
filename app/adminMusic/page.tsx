@@ -11,12 +11,8 @@ import Button from '../Components/Button/Button'
 
 export default function AdminMusic() {
     const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
-    const [artistName, setArtistName] = useState("");
-    const [artistBiography, setArtistBiography] = useState("");
     const [albumTitle, setAlbumTitle] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
-    const [showAddArtist, setShowaddArtist] = useState(false);
-    const [listArtist, setListArtist] = useState(true);
     const [getData, setGetData] = useState([]);
     const [search123, setSearch1] = useState('');
     const [musicUrl, setMusicUrl] = useState('');
@@ -45,13 +41,11 @@ export default function AdminMusic() {
 
 
 
-    console.log(artistName);
 
 
 
-    const biographyChange = (e: any) => {
-        setArtistBiography(e.target.value)
-    }
+
+
 
  
 
@@ -69,11 +63,6 @@ export default function AdminMusic() {
             setGetData(r.data)
         })
     }, [])
-
-    const click = () => {
-        setShowaddArtist(true)
-        setListArtist(false)
-    }
 
     const albumurl = (e: any) => {
         setMusicUrl(e.target.value)

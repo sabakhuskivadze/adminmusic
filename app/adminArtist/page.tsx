@@ -9,7 +9,6 @@ import { Switch } from 'antd';
 import Cookies from "js-cookie";
 import axios from 'axios'
 import { message, Space } from 'antd';
-import { cookies } from 'next/headers'
 type Artist = {
   id: number;
   firstName: string;
@@ -62,7 +61,7 @@ export default function ArtistAdd() {
         }
       }
     )
-    .then((data) => {
+    .then(() => {
       messageApi.open({
         type: 'success',
         content: 'წარმატებით შექიმნა!',
@@ -72,7 +71,7 @@ export default function ArtistAdd() {
         setListArtist(true);
       }, 2000);
     })
-    .catch((error) => {
+    .catch(() => {
       messageApi.error({
         type: 'error',
         content: 'რატომ გავიხადე?',

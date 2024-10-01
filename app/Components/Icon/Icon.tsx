@@ -15,6 +15,7 @@ const Icon = ({ name, height, width, isActive, onClick }: Props) => {
   
   return (
     <Image
+    className={styles.arrowIcon}
       src={iconSrc}
       height={height ? parseInt(height) : 24} // Default height if not provided
       width={width ? parseInt(width) : 24}   // Default width if not provided

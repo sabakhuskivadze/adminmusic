@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function Input(props: Props) {
-  const { mode, state, type, placeholder, onchange, disabled } = props;
+  const { mode, state, type, placeholder, disabled } = props;
   const inputClassName = `${styles.input} ${styles[mode]} ${styles[state]}`;
 
   return (
