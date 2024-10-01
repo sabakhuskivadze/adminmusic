@@ -24,8 +24,8 @@ const Login = () => {
   };
 
   const authUser = async () => {
-    try {
-      const response = await axios.post("https://music-back-1s59.onrender.com/auth", {
+    try { 
+      const response = await axios.post("https://music-back-1s59.onrender.com/auth/admin", {
         email: email,
         password: password,
       });
