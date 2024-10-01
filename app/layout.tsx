@@ -1,5 +1,3 @@
-"use client"; // Make sure to include this at the top if you're using React hooks
-
 import React from "react";
 import { Cookie, Inter } from "next/font/google";
 import "./globals.css";
