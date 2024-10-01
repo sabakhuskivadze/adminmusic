@@ -56,7 +56,7 @@ export default function AdminAlbum() {
   const suggest = async () => {
     // Check if we are in the browser before accessing localStorage
     if (typeof window !== "undefined") {
-      const userToken = localStorage.getItem("token");
+      const userToken = getCookie("userToken");
       try {
         await axios.post(
           "https://music-back-1s59.onrender.com/album",

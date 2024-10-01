@@ -131,7 +131,8 @@ export default function ArtistAdd() {
   };
 
   useEffect(() => {
-    const userToken = localStorage.getItem("token");
+    if (typeof window !== "undefined") {
+    const userToken = getCookie("userToken");
 
     if (userToken && search) {
       axios.get(`https://music-back-1s59.onrender.com/search/artist?search=${search}`, {
@@ -150,6 +151,7 @@ export default function ArtistAdd() {
         }
       });
     }
+  }
   }, [search]);
 
   return (

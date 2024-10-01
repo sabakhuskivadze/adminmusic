@@ -88,7 +88,7 @@ export default function AdminMusic() {
     }
 
     const suggest = () => {
-        const userToken = localStorage.getItem("token");
+        const userToken = getCookie("userToken");
         axios.post(
             "https://music-back-1s59.onrender.com/music",
             {
@@ -120,6 +120,7 @@ export default function AdminMusic() {
     }
 
     useEffect(() => {
+        if (typeof window !== "undefined") {
         const userToken = Cookies.get("userToken") ?? null;
 
         if (userToken) {
@@ -135,6 +136,7 @@ export default function AdminMusic() {
                     console.error('Error fetching users:', error);
                 });
         }
+    }
     }, []);
 
     const searchArtist1 = (e: React.ChangeEvent<HTMLInputElement>) => {
