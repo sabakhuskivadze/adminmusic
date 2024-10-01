@@ -45,33 +45,36 @@ const AsideMenu = () => {
     <div className={`${styles.aside} ${themeColor === 'dark' ? styles.darkAside : ''}`}>
       <div className={styles.siderContent}>
         <div className={styles.logo}>
-          <Icon name={"FAZER"} isActive={false} onClick={() => {}} />
+          <Icon width='72px' name={"FAZER"} isActive={false} onClick={() => { }} />
         </div>
         <div className={styles.menuItems}>
-        <MenuItem
-                name={"artists"}
-                isActive={activeItem === "artists"}
-                onClick={() => handleMenuItemClick("artists", "http://localhost:3000/adminArtist")}
-              />
-              <MenuItem
-                name={"Users"}
-                isActive={activeItem === "Users"}
-                onClick={() => handleMenuItemClick("Users", "http://localhost:3000/userList")}
-              />
-              <MenuItem
-                name={"Album"}
-                isActive={activeItem === "Album"}
-                onClick={() => handleMenuItemClick("Album", "http://localhost:3000/adminAlbum")}
-              />
-              <MenuItem
-                name={"Music"}
-                isActive={activeItem === "Music"}
-                onClick={() => handleMenuItemClick("Music", "http://localhost:3000/adminMusic")}
-              />
-      
+          <MenuItem
+            name={"artists"}
+            isActive={activeItem === "artists"}
+            onClick={() => handleMenuItemClick("artists", "http://localhost:3001/adminArtist")}
+          />
+          <MenuItem
+            name={"Users"}
+            isActive={activeItem === "Users"}
+            onClick={() => handleMenuItemClick("Users", "http://localhost:3001/userList")}
+          />
+
+          <MenuItem
+            name={"Music"}
+            isActive={activeItem === "Music"}
+            onClick={() => handleMenuItemClick("Music", "http://localhost:3001/adminMusic")}
+          />
+
+          <MenuItem
+            name={"Album"}
+            isActive={activeItem === "Album"}
+            onClick={() => handleMenuItemClick("Album", "http://localhost:3001/adminAlbum")}
+          />
+
+
         </div>
       </div>
-      
+
       <div className={styles.lightDarkContainer}>
         <LightDark />
       </div>

@@ -22,10 +22,13 @@ export default function AdminMusic() {
     const [showAddArtist, setShowaddArtist] = useState(false)
     const [listArtist, setListArtist] = useState(true)
     const [getData, setGetData] = useState([])
-    const [search, setSearch] = useState('')
+    const [search123, setSearch1] = useState('')
     const [searchData, setSearchData] = useState([])
-    const [musicUrl, setMusicUrl ] = useState('')
+    const [musicUrl, setMusicUrl] = useState('')
     const [artistId, setArtistId] = useState('')
+    const [showList, setShowList] = useState(true)
+    const [showAdd, setShowAdd] = useState(false)
+    const [data1,setData1] = useState([])
     useEffect(() => {
         const updateTheme = () => {
             const newTheme = getCookie("theme");
@@ -54,11 +57,9 @@ export default function AdminMusic() {
         setArtistBiography(e.target.value)
     }
 
-    const searchArtist = (e: any) => {
-        setSearch(e.target.value)
-    }
+ 
 
-    console.log(search);
+
 
 
     useEffect(() => {
@@ -78,47 +79,131 @@ export default function AdminMusic() {
         setListArtist(false)
     }
 
-   const albumurl = (e:any) => {
-    setMusicUrl(e.target.value)
-   } 
+    const albumurl = (e: any) => {
+        setMusicUrl(e.target.value)
+    }
 
-   const artistIdChange = (e:any) => {
-    setArtistId(e.target.value)
-   }
+    const artistIdChange = (e: any) => {
+        setArtistId(e.target.value)
+    }
 
-   const suggest = () => {
-    const userToken = localStorage.getItem("token");
-    axios.post(
-        "https://music-back-1s59.onrender.com/music",
-        {
-            name: albumTitle,
-            url: musicUrl,
-            artistId: Number(artistId)
-        },
-        {
-            headers: {
-                Authorization: `Bearer ${userToken}`
+    const suggest = () => {
+        const userToken = localStorage.getItem("token");
+        axios.post(
+            "https://music-back-1s59.onrender.com/music",
+            {
+                name: albumTitle,
+                url: musicUrl,
+                artistId: Number(artistId)
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${userToken}`
+                }
             }
-        }
 
-    )
-        .then((data) => {
-            console.log(data);
-            messageApi.open({
-                type: 'success',
-                content: 'წარმატებით შექიმნა!',
+        )
+            .then((data) => {
+                console.log(data);
+                messageApi.open({
+                    type: 'success',
+                    content: 'წარმატებით შექიმნა!',
+                });
+            })
+            .catch((error) => {
+                messageApi.error({
+                    type: 'error',
+                    content: 'რატომ გავიხადე?',
+                });;
             });
-        })
-        .catch((error) => {
-            messageApi.error({
-                type: 'error',
-                content: 'რატომ გავიხადე?',
-            });;
-        });
-}
+
+    }
+
+    useEffect(() => {
+        const userToken = Cookies.get("userToken") ?? null;
+
+        if (userToken) {
+            axios.get('https://music-back-1s59.onrender.com/music', {
+                headers: {
+                    Authorization: `Bearer ${userToken}`,
+                },
+            })
+                .then((response) => {
+                    setData1(response.data);
+                })
+                .catch((error) => {
+                    console.error('Error fetching users:', error);
+                });
+        }
+    }, []);
+
+    const searchArtist1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch1(e.target.value);
+    };
+
+    const click1 = () => {
+        setShowList(false);
+        setShowAdd(true);
+    };
     return (
         <>
             {contextHolder}
+            {showList && (
+                <div className={styles.mainContent}>
+                    <Aside />
+                    <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
+                        <div className={styles.container}>
+                            <div className={styles.headerAdmin}>
+                                <p className={styles.HeaderTitle}>Music</p>
+                            </div>
+                            <div className={styles.contaienrGroup}>
+                                <button onClick={click1} className={styles.btn1}>   <Icon height={"24px"} width={"24px"} name={"add"} isActive={false} onClick={() => { }} />Add Artists</button>
+                                <div className={styles.search}>
+                                    <div className={styles.icon}>
+                                        <Icon name={"searchIcon"} isActive={false} />
+                                    </div>
+
+
+                                    <input
+                                        onChange={searchArtist1}
+                                        placeholder='Search'
+                                        type="text"
+                                        className={styles.artistSearch}
+                                    />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className={styles.listArtist}>
+                            <div className={styles.list}>
+                                <div className={styles.listInfo}>
+                                    <div className={styles.items}>
+                                        <p>Name</p>
+                                        <p>Email</p>
+                                        <p>UserId</p>
+                                        <p>Last login</p>
+                                        <p>Status</p>
+                                    </div>
+                                </div>
+                                {data1.filter(item =>
+                                    item.name.toLowerCase().includes(search123.toLowerCase())
+                                ).map((item, index) => (
+                                    <div className={styles.ArtistInfo} key={index}>
+                                        <div className={styles.items}>
+                                            <p>{item.name}</p>
+                                            <p>{"active"}</p>
+                                            <p>{item.id}</p>
+                                            <p>{item.createdAt}</p>
+                                            <p className={styles.Active}>{'Active'}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            )}
             {(
                 <div className={styles.mainContent}>
                     <Aside />
@@ -132,7 +217,7 @@ export default function AdminMusic() {
                         </div>
                         <div className={styles.line}></div>
                         <div className={styles.text}>
-                            
+
                             <span className={styles.head}>Add Musics</span>
                             <div className={styles.line}></div>
                             <div className={styles.containerMusic}>
@@ -145,7 +230,7 @@ export default function AdminMusic() {
                                         mode="white"
                                         state="neutral"
                                     />
-                                       <span>Music url</span>
+                                    <span>Music url</span>
                                     <Input
                                         onchange={albumurl}
                                         type="text"
@@ -161,9 +246,9 @@ export default function AdminMusic() {
                                         mode="white"
                                         state="neutral"
                                     />
-                                    
+
                                     <div className={styles.img}>
-                                       
+
                                         <div className={styles.imageText}>
                                             <span className={styles.iimg}>Trakis Scott</span>
                                             <span>Profile Photo</span>
