@@ -1,14 +1,16 @@
 "use client"
-import Aside, { getCookie } from './Components/Aside/Aside'
-import styles from './page.module.scss'
+import Aside, { getCookie } from '../Components/Aside/Aside'
+import styles from './artist.module.scss'
 import { useState, useEffect } from 'react'
-import Icon from './Components/Icon/Icon'
-import Input from './Components/Input/input'
-import Button from './Components/Button/Button'
+import TopChart from '../Components/TopChart/TopChart'
+import Icon from '../Components/Icon/Icon'
+import Input from '../Components/Input/input'
+import Button from '../Components/Button/Button'
 import { Switch } from 'antd';
 import Cookies from "js-cookie";
 import axios from 'axios'
 import { message, Space } from 'antd';
+import Image from 'next/image';
 import { cookies } from 'next/headers'
 type Artist = {
   id: number;
@@ -284,11 +286,11 @@ export default function ArtistAdd() {
               <div className={styles.list}>
                 <div className={styles.listInfo}>
                   <div className={styles.items}>
-                    <p className={styles.listinfoTitle}>Name</p>
-                    <p className={styles.listinfoTitle}>Email</p>
-                    <p className={styles.listinfoTitle}>User</p>
-                    <p className={styles.listinfoTitle}>Profile</p>
-                    <p className={styles.listinfoTitle}>Status</p>
+                    <p>Name</p>
+                    <p>Email</p>
+                    <p>User</p>
+                    <p>Profile</p>
+                    <p>Status</p>
                   </div>
                 </div>
 
@@ -298,10 +300,10 @@ export default function ArtistAdd() {
                ).map((items, index) => (
                  <div className={styles.ArtistInfo} key={index}> {/* Add key here */}
                    <div className={styles.items}>
-                     <p className={styles.itemsText}>{items.firstName}</p>
-                     <p className={styles.itemsText}>{`${items.lastName}@gmail.com`}</p>
-                     <p className={styles.itemsText}>{String(items.id)}</p>
-                     <p className={styles.itemsText}>{items.biography}</p>
+                     <p>{items.firstName}</p>
+                     <p>{`${items.lastName}@gmail.com`}</p>
+                     <p>{String(items.id)}</p>
+                     <p>{items.biography}</p>
                      <p className={styles.Active}>{'Active'}</p>
                    </div>
                  </div>

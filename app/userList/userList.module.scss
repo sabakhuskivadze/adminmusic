@@ -1,0 +1,198 @@
+.mainContent {
+    display: flex;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  
+  .default{
+    display: flex;
+    height: fit-content;
+  }
+  
+  .static{
+    background: #F7F7F7;
+    width: 100%;
+    overflow: scroll;
+    padding: 30px;
+  }
+  .darkStatic{
+    background-color: #0E0E0E;
+  }
+
+  .headerAdmin{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 30px;
+  }
+
+  .HeaderTitle{
+    position: relative;
+    font-size: 24px;
+    color: #292929;
+  }
+
+  .line{
+    width: 1134px;
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.031372549);
+    position: relative;
+    top: 10px;
+    left: 33px;
+  }
+
+  .text{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px;
+    gap: 16px;
+    width: 557px;
+    height: 48px;
+  }
+
+  .bio{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 557px;
+    height: 264px;
+    gap: 16px;
+  }
+
+  .head{
+    font-size: 24px;
+    font-weight: 500;
+
+  }
+
+  .album{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+    width: 557px;
+    height: 48px;
+  }
+
+  .img{
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  }
+
+  .imageText{
+    display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 32px;
+align-self: stretch;
+color: var(--SecondaryDarkModeTExtCollor, #898989);
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 24px; /* 150% */
+letter-spacing: -0.32px;
+  }
+
+  .iimg{
+    color: var(--PrimaryTextCollorWHiteMode, #292929);
+font-family: Inter;
+font-size: 24px;
+font-style: normal;
+font-weight: 500;
+line-height: 24px; /* 100% */
+letter-spacing: -0.48px;
+  }
+
+  .buttons{
+    display: flex;
+align-items: flex-start;
+gap: 12px;
+  }
+
+  .BiographyText{
+    width: 557px;
+    height: 224px;
+    border-radius: 12px;
+    padding: 12px 16px;
+    border: none;
+  }
+
+  .btn1{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 12px;
+    width: 138px;
+    padding: 8px 16px;
+    color: #898989;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .container{
+    display: flex;
+    align-items: center;
+    width: 1135px;
+    justify-content: space-between;
+  }
+
+  .artistSearch{
+    width: 276px;
+    height: 48px;
+    border-radius: 16px;
+    padding: 12px 44px;
+    border: none;
+  }
+
+  .icon{
+    position: relative;
+    left: 33px;
+    top: 2px;
+  }
+
+  .search{
+    display: flex;
+    align-items: center;
+  }
+
+  .contaienrGroup{
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .listInfo{
+    width: 1135px;
+    border: 1px solid black;
+    height: 56px;
+  }
+
+  .items{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+  }
+
+  .ArtistInfo{
+    width: 1135px;
+    border: 1px solid black;
+    height: 56px;
+  }
+
+  .Active{
+    width: 83px;
+    height: 32px;
+    padding: 4px 24px;
+    background-color: #0EC60A1A;
+    border-radius: 16px;
+    color: #0EC60A;
+    font-size: 12px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+  }

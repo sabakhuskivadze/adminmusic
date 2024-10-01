@@ -1,0 +1,160 @@
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 112px;
+}
+
+.loginContainer {
+  display: flex;
+  padding: 64px;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  border-radius: 24px;
+  background: yellow;
+}
+
+.contHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.contHeader h1 {
+  color: #000;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bolder;
+  line-height: 40px;
+}
+
+.contHeader span {
+  color: var(--lSecondaryWhiteTExtCollorMode, #8f93a3);
+  text-align: center;
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 500;
+  width: 294px;
+}
+
+.contBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.emailCont {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.emailCont span {
+  color: #292929;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.passCont {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.passCont span {
+  color: #292929;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px;
+}
+
+.loginBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoHolder {
+  display: flex;
+  width: 343px;
+  height: 48px;
+  padding: 12px 16px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: #f7f7f7;
+}
+
+.input {
+  width: 440px;
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%;
+  border: none;
+  cursor: pointer;
+  background: #f7f7f7;
+  outline: none;
+}
+
+.passwordOptions {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  color: #292929;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: -0.32px;
+}
+
+.remmemberPassword {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.contFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+}
+
+.signInBTN {
+  display: flex;
+  width: 343px;
+  height: 48px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background: var(--PrimaryCollor, #ff5f5f);
+  border: none;
+  outline: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.signInBTN span {
+  color:  #8f93a3;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.createAcc {
+  color: var(--PrimaryCollor, #ff5f5f);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  cursor: pointer;
+}
+
