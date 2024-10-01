@@ -1,9 +1,9 @@
 "use client";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import styles from './userList.module.scss';
+import styles from './userList.module.scss'; // Remove if not used
 import axios from 'axios';
-import Aside from '../Components/Aside/Aside'; // Removed unused getCookie import
+import Aside, { getCookie } from '../Components/Aside/Aside';
 import Icon from '../Components/Icon/Icon';
 
 interface User {
@@ -15,7 +15,7 @@ interface User {
 
 export default function UserList() {
     const [themeColor, setThemeColor] = useState<string | null>(Cookies.get("theme") ?? null);
-    const [getData, setGetData] = useState<User[]>([]); // Adjusted type to User[]
+    const [getData, setGetData] = useState<User[]>([]);
     const [search, setSearch] = useState("");
 
     useEffect(() => {
@@ -104,3 +104,4 @@ export default function UserList() {
         </div>
     );
 }
+    
