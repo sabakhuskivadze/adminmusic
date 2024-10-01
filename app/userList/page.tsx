@@ -3,14 +3,16 @@ import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import styles from './userList.module.scss';
 import axios from 'axios';
-import Aside, { getCookie } from '../Components/Aside/Aside';
+import Aside from '../Components/Aside/Aside'; // Removed unused getCookie import
 import Icon from '../Components/Icon/Icon';
+
 interface User {
     id: string;
     name: string;
     email: string;
     lastLogin: string;
 }
+
 export default function UserList() {
     const [themeColor, setThemeColor] = useState<string | null>(Cookies.get("theme") ?? null);
     const [getData, setGetData] = useState<User[]>([]); // Adjusted type to User[]
@@ -71,36 +73,34 @@ export default function UserList() {
                             />
                         </div>
                     </div>
-        
                 </div>
                 <div className={styles.listArtist}>
-                        <div className={styles.list}>
-                            <div className={styles.listInfo}>
+                    <div className={styles.list}>
+                        <div className={styles.listInfo}>
+                            <div className={styles.items}>
+                                <p>Name</p>
+                                <p>Email</p>
+                                <p>UserId</p>
+                                <p>Last login</p>
+                                <p>Status</p>
+                            </div>
+                        </div>
+                        {getData.filter(item => 
+                            item.name.toLowerCase().includes(search.toLowerCase())
+                        ).map((item, index) => (
+                            <div className={styles.ArtistInfo} key={index}>
                                 <div className={styles.items}>
-                                    <p>Name</p>
-                                    <p>Email</p>
-                                    <p>UserId</p>
-                                    <p>Last login</p>
-                                    <p>Status</p>
+                                    <p>{item.name}</p>
+                                    <p>{item.email}</p>
+                                    <p>{item.id}</p>
+                                    <p>{item.lastLogin}</p>
+                                    <p className={styles.Active}>{'Active'}</p>
                                 </div>
                             </div>
-                            {getData.filter(item => 
-                                item.name.toLowerCase().includes(search.toLowerCase())
-                            ).map((item, index) => (
-                                 <div className={styles.ArtistInfo} key={index}>
-                                    <div className={styles.items}>
-                                        <p>{item.name}</p>
-                                        <p>{item.email}</p>
-                                        <p>{item.id}</p>
-                                        <p>{item.lastLogin}</p>
-                                        <p className={styles.Active}>{'Active'}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        ))}
                     </div>
+                </div>
             </div>
-            
         </div>
     );
 }

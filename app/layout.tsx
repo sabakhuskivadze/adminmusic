@@ -1,5 +1,4 @@
-"use client"; // Make sure to include this at the top if you're using React hooks
-
+"use client"
 import React from "react";
 import { Cookie, Inter } from "next/font/google";
 import "./globals.css";
@@ -8,7 +7,7 @@ import { FloatButton } from 'antd';
 import Icon from "./Components/Icon/Icon";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
-import { RecoilRoot } from "recoil"; // Import RecoilRoot
+import { RecoilRoot } from "recoil";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,25 +19,21 @@ export default function RootLayout({
   const pathname = usePathname();
   const router = useRouter();
 
-  // Log the current path for debugging
   console.log("Current Path:", pathname);
 
-  // Check if the current path is NOT '/adminArtist', '/Login', or '/SignIn'
-  const showPlayer = pathname !== '/adminArtist' && pathname !== '/Login' && pathname !== '/SignUp' && pathname !== '/userList' && pathname !== '/adminMusic';
   const showExitButton = pathname !== '/Login' && pathname !== '/SignUp';
 
   const handleLogout = () => {
     Cookies.remove('userToken');
     router.replace("/Login");
-  
   };
 
   return (
     <html lang="en">
       <head></head>
       <body className={inter.className}>
-        <RecoilRoot> 
-          {children}  
+        <RecoilRoot>
+          {children}
           {showExitButton && 
             <FloatButton
               shape="circle"

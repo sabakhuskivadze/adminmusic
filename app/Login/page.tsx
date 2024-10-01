@@ -11,7 +11,7 @@ type Props = {};
 const Login = (props: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(''); // State to handle error messages
+
 
   const router = useRouter();
 
@@ -37,8 +37,7 @@ const Login = (props: Props) => {
 
       // Redirect after successful login
       router.replace("http://localhost:3000");
-    } catch (error) {
-      setError('Login failed. Please check your email and password.'); // Set error message
+    } catch (error) { 
       console.error('Login error:', error);
     }
   };
@@ -53,9 +52,6 @@ const Login = (props: Props) => {
           <h1>Log In to Your Account</h1>
           <span>Enter the email and password you used to register</span>
         </div>
-
-        {error && <p className={styles.error}>{error}</p>} {/* Display error message */}
-
         <div className={styles.contBody}>
           <div className={styles.loginBody}>
             <div className={styles.emailCont}>

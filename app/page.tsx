@@ -9,7 +9,6 @@ import { Switch } from 'antd';
 import Cookies from "js-cookie";
 import axios from 'axios'
 import { message, Space } from 'antd';
-import { cookies } from 'next/headers'
 type Artist = {
   id: number;
   firstName: string;

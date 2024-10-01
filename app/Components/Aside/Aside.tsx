@@ -14,7 +14,6 @@ export const getCookie = (key: string) => {
 const AsideMenu = () => {
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [themeColor, setThemeColor] = useState<string | undefined>(getCookie("theme")); // Store theme in state
-  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
 
   const handleMenuItemClick = (name: string, route: string) => {
@@ -34,12 +33,6 @@ const AsideMenu = () => {
     return () => clearInterval(themeInterval);
   }, []);
 
-  useEffect(() => {
-    const isAdminCookie = Cookie.get("isAdmin");
-    if (isAdminCookie === 'admin') {
-      setIsAdmin(true);
-    }
-  }, []);
 
   return (
     <div className={`${styles.aside} ${themeColor === 'dark' ? styles.darkAside : ''}`}>

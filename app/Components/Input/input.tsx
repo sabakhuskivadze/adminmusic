@@ -15,7 +15,7 @@ export default function Input(props: Props) {
   const inputClassName = `${styles.input} ${styles[mode]} ${styles[state]}`;
 
   return (
-    <div>
+    <div className={styles.input}>
     <input
     onChange={props.onchange}
       type={type}

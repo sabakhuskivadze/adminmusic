@@ -1,7 +1,7 @@
 "use client";
 import { message, Space } from 'antd';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import Aside, { getCookie } from '../Components/Aside/Aside';
 import Icon from '../Components/Icon/Icon';
 import styles from './adminAlbum.module.scss';
@@ -18,7 +18,6 @@ type Artist = {
   lastName: string;
   biography: string;
 };
-
 export default function AdminAlbum() {
   const [artistName, setArtistName] = useState<string>("");
   const [artistLastname, setArtistLastname] = useState<string>("");
@@ -38,7 +37,7 @@ export default function AdminAlbum() {
   const [listArtist, setListArtist] = useState<boolean>(true);
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState<string>('');
-  const [searchData, setSearchData] = useState<any[]>([]); // Consider a specific type instead of 'any'
+  const [searchData, setSearchData] = useState<unknown[]>([]); // Changed from any[] to unknown[]
   const [showList, setShowList] = useState<boolean>(true);
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
@@ -86,6 +85,7 @@ export default function AdminAlbum() {
       }
     }
   };
+
   const firstname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setArtistName(e.target.value);
   };

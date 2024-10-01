@@ -8,6 +8,7 @@ import styles from './adminMusic.module.scss'
 import Cookies from "js-cookie";
 import Input from '../Components/Input/input'
 import Button from '../Components/Button/Button'
+
 export default function AdminMusic() {
     const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
     const [artistName, setArtistName] = useState("");

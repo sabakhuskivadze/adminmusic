@@ -9,7 +9,6 @@ import { Switch } from 'antd';
 import Cookies from "js-cookie";
 import axios from 'axios'
 import { message, Space } from 'antd';
-import Image from 'next/image';
 import { cookies } from 'next/headers'
 type Artist = {
   id: number;
@@ -21,19 +20,13 @@ export default function ArtistAdd() {
   const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
   const [artistName, setArtistName] = useState("");
   const [artistLastname, setArtistLastname] = useState("");
-  const [artistMusicIds, setArtistMusicIds] = useState("");
-  const [artistAlbumId, setArtistAlbumId] = useState("");
   const [artistBiography, setArtistBiography] = useState("");
-  const [emails, setEmails] = useState("");
-  const [albumTitle, setAlbumTitle] = useState('');
-  const [releaseDate, setReleaseDate] = useState('');
   const [switchChecked, setSwitchChecked] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [showAddArtist, setShowAddArtist] = useState(false);
   const [listArtist, setListArtist] = useState(true);
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState('');
-  const [searchData, setSearchData] = useState([]);
 
   useEffect(() => {
     const updateTheme = () => {
@@ -42,30 +35,12 @@ export default function ArtistAdd() {
     };
 
     updateTheme();
-
     const themeInterval = setInterval(updateTheme, 0); // Adjust interval as needed
-
     return () => clearInterval(themeInterval);
   }, []);
 
-  const firstname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setArtistName(e.target.value);
-  };
-
-  const lastname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setArtistLastname(e.target.value);
-  };
-
-  const email = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmails(e.target.value);
-  };
-
-  const albumname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAlbumTitle(e.target.value);
-  };
-
-  const releaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setReleaseDate(e.target.value);
+  const handleChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setter(e.target.value);
   };
 
   const onChange = (checked: boolean) => {
@@ -73,7 +48,7 @@ export default function ArtistAdd() {
   };
 
   const suggest = () => {
-    const userToken = getCookie("userToken")
+    const userToken = getCookie("userToken");
     axios.post(
       "https://music-back-1s59.onrender.com/artist",
       {
@@ -105,17 +80,12 @@ export default function ArtistAdd() {
     });
   };
 
-  const biographyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setArtistBiography(e.target.value);
-  };
-
   const searchArtist = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
   useEffect(() => {
     const userToken = Cookies.get("userToken");
-
     axios.get('https://music-back-1s59.onrender.com/artist', {
       headers: {
         Authorization: `Bearer ${userToken}`,
@@ -132,26 +102,25 @@ export default function ArtistAdd() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-    const userToken = getCookie("userToken");
-
-    if (userToken && search) {
-      axios.get(`https://music-back-1s59.onrender.com/search/artist?search=${search}`, {
-        headers: {
-          Authorization: `Bearer ${userToken}`,
-        },
-      })
-      .then((response) => {
-        setSearchData(response.data);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          console.log('Unauthorized: Invalid token');
-        } else {
-          console.log('Error:', error.message);
-        }
-      });
+      const userToken = getCookie("userToken");
+      if (userToken && search) {
+        axios.get(`https://music-back-1s59.onrender.com/search/artist?search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        })
+        .then((response) => {
+          setGetData(response.data); // Assuming you want to update getData with search results
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            console.log('Unauthorized: Invalid token');
+          } else {
+            console.log('Error:', error.message);
+          }
+        });
+      }
     }
-  }
   }, [search]);
 
   return (
@@ -173,7 +142,7 @@ export default function ArtistAdd() {
               <span>First Name</span>
               <Input
                 disabled={switchChecked}
-                onchange={firstname}
+                onchange={handleChange(setArtistName)}
                 type="text"
                 placeholder=""
                 mode="white"
@@ -182,24 +151,7 @@ export default function ArtistAdd() {
               <span>Last Name</span>
               <Input
                 disabled={switchChecked}
-                onchange={lastname}
-                type="text"
-                placeholder=""
-                mode="white"
-                state="neutral"
-              />
-              <span>Email</span>
-              <Input
-                disabled={switchChecked}
-                onchange={email}
-                type="text"
-                placeholder=""
-                mode="white"
-                state="neutral"
-              />
-              <span>User</span>
-              <Input
-                disabled={switchChecked}
+                onchange={handleChange(setArtistLastname)}
                 type="text"
                 placeholder=""
                 mode="white"
@@ -207,18 +159,17 @@ export default function ArtistAdd() {
               />
               <span>Biography</span>
               <textarea 
-  onChange={biographyChange} 
-  disabled={switchChecked} 
-  className={styles.BiographyText} 
-  cols={30} 
-  rows={60}
-/>
-
+                onChange={handleChange(setArtistBiography)} 
+                disabled={switchChecked} 
+                className={styles.BiographyText} 
+                cols={30} 
+                rows={60}
+              />
               <Switch onChange={onChange} />
               <div className={styles.img}>
                 <input type="file" />
                 <div className={styles.imageText}>
-                  <span className={styles.iimg}>Trakis Scott</span>
+                  <span className={styles.iimg}>Travis Scott</span>
                   <span>Profile Photo</span>
                   <div className={styles.buttons}>
                     <Button
@@ -230,28 +181,19 @@ export default function ArtistAdd() {
                       border="none"
                       padding='4px 16px'
                     />
-                    <Button
-                      text="view"
-                      width="63px"
-                      backgroundColor="white"
-                      borderRadius="5px"
-                      textColor="#898989"
-                      border="none"
-                      padding='4px 16px'
-                    />
+                    <Space>
+                      <Button
+                        click={suggest}
+                        text="Suggest"
+                        width="90px"
+                        backgroundColor="#FF5F5F"
+                        borderRadius="5px"
+                        textColor="#FFFFFF"
+                        border="none"
+                        padding='4px 16px'
+                      />
+                    </Space>
                   </div>
-                  <Space>
-                    <Button
-                      click={suggest}
-                      text="Suggest"
-                      width="90px"
-                      backgroundColor="#FF5F5F"
-                      borderRadius="5px"
-                      textColor="#FFFFFF"
-                      border="none"
-                      padding='4px 16px'
-                    />
-                  </Space>
                 </div>
               </div>
             </div>
