@@ -10,7 +10,6 @@ import Input from '../Components/Input/input'
 import Button from '../Components/Button/Button'
 
 export default function AdminMusic() {
-    const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
     const [albumTitle, setAlbumTitle] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
     const [data1, setData1] = useState<any[]>([]); // Use a specific type if you have it
@@ -19,17 +18,7 @@ export default function AdminMusic() {
     const [artistId, setArtistId] = useState('');
     const [showList, setShowList] = useState(true);
 
-    useEffect(() => {
-        const updateTheme = () => {
-            const newTheme = getCookie("theme");
-            setThemeColor(String(newTheme));
-        };
-
-        updateTheme();
-        const themeInterval = setInterval(updateTheme, 0);
-
-        return () => clearInterval(themeInterval);
-    }, []);
+  
 
     const albumname = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAlbumTitle(e.target.value);
@@ -103,7 +92,7 @@ export default function AdminMusic() {
             {showList && (
                 <div className={styles.mainContent}>
                     <Aside />
-                    <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
+                    <div className={`${styles.static}`}>
                         <div className={styles.container}>
                             <div className={styles.headerAdmin}>
                                 <p className={styles.HeaderTitle}>Music</p>
@@ -159,7 +148,7 @@ export default function AdminMusic() {
             {(
                 <div className={styles.mainContent}>
                     <Aside />
-                    <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
+                    <div className={`${styles.static}`}>
                         <div className={styles.headerAdmin}>
                             <div className={styles.containerIcon}>
                                 <Icon height={"32px"} width={"32px"} name={"Arrow"} isActive={false} onClick={() => { }} />

@@ -14,21 +14,9 @@ interface User {
 }
 
 export default function UserList() {
-    const [themeColor, setThemeColor] = useState<string | null>(Cookies.get("theme") ?? null);
     const [getData, setGetData] = useState<User[]>([]);
     const [search, setSearch] = useState("");
 
-    useEffect(() => {
-        const updateTheme = () => {
-            const newTheme = Cookies.get("theme") ?? null;
-            setThemeColor(newTheme);
-        };
-
-        updateTheme();
-        const themeInterval = setInterval(updateTheme, 5000);
-
-        return () => clearInterval(themeInterval);
-    }, []);
 
     useEffect(() => {
         const userToken = Cookies.get("userToken") ?? null;
@@ -55,7 +43,7 @@ export default function UserList() {
     return (
         <div className={styles.mainContent}>
             <Aside />
-            <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
+            <div className={`${styles.static}`}>
                 <div className={styles.container}>
                     <div className={styles.headerAdmin}>
                         <p className={styles.HeaderTitle}>Users</p>
@@ -104,4 +92,3 @@ export default function UserList() {
         </div>
     );
 }
-    

@@ -19,7 +19,6 @@ type Artist = {
   biography: string;
 };
 export default function AdminAlbum() {
-  const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
   const [messageApi, contextHolder] = message.useMessage();
   const [albumTitle, setAlbumTitle] = useState<string>('');
   const [releaseDate1, setReleaseDate1] = useState<string>('');
@@ -87,7 +86,7 @@ export default function AdminAlbum() {
       {showList && (
         <div className={styles.mainContent}>
           <Aside />
-          <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
+          <div className={`${styles.static}`}>
             <div className={styles.container}>
               <div className={styles.headerAdmin}>
                 <p className={styles.HeaderTitle}>Album</p>
@@ -142,7 +141,7 @@ export default function AdminAlbum() {
       )}
       {showAdd && (<div className={styles.mainContent}>
         <Aside />
-        <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
+        <div className={`${styles.static}`}>
           <div className={styles.headerAdmin}>
             <div className={styles.containerIcon}>
               <Icon height={"32px"} width={"32px"} name={"Arrow"} isActive={false} onClick={() => { }} />

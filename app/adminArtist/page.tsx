@@ -16,7 +16,6 @@ type Artist = {
   biography: string;
 };
 export default function ArtistAdd() {
-  const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
   const [artistName, setArtistName] = useState("");
   const [artistLastname, setArtistLastname] = useState("");
   const [artistBiography, setArtistBiography] = useState("");
@@ -27,16 +26,6 @@ export default function ArtistAdd() {
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    const updateTheme = () => {
-      const newTheme = getCookie("theme") || 'null'; // Provide fallback value
-      setThemeColor(String(newTheme));
-    };
-
-    updateTheme();
-    const themeInterval = setInterval(updateTheme, 0); // Adjust interval as needed
-    return () => clearInterval(themeInterval);
-  }, []);
 
   const handleChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setter(e.target.value);
@@ -128,7 +117,7 @@ export default function ArtistAdd() {
       {showAddArtist && (
         <div className={styles.mainContent}>
           <Aside />
-          <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
+          <div className={`${styles.static}`}>
             <div className={styles.headerAdmin}>
               <div className={styles.containerIcon}>
                 <Icon height={"32px"} width={"32px"} name={"Arrow"} isActive={false} onClick={() => { }} />
@@ -202,7 +191,7 @@ export default function ArtistAdd() {
       {listArtist && (
         <div className={styles.mainContent}>
           <Aside />
-          <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
+          <div className={`${styles.static} `}>
             <div className={styles.container}>
               <div className={styles.headerAdmin}>
                 <div className={styles.containerIcon}>

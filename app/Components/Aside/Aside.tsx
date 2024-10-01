@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import styles from './Aside.module.scss';
 import Icon from '../Icon/Icon';
 import MenuItem from '../MenuItem/MenuItem';
-import LightDark from '../LightDark/LightDark';
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
@@ -13,7 +12,6 @@ export const getCookie = (key: string) => {
 
 const AsideMenu = () => {
   const [activeItem, setActiveItem] = useState<string | null>(null);
-  const [themeColor, setThemeColor] = useState<string | undefined>(getCookie("theme")); // Store theme in state
   const router = useRouter();
 
   const handleMenuItemClick = (name: string, route: string) => {
@@ -21,21 +19,10 @@ const AsideMenu = () => {
     router.replace(route);
   };
 
-  useEffect(() => {
-    const updateTheme = () => {
-      const newTheme = getCookie("theme");
-      setThemeColor(newTheme);
-    };
-
-    updateTheme();
-    const themeInterval = setInterval(updateTheme, 0); // Set reasonable interval (1 second)
-
-    return () => clearInterval(themeInterval);
-  }, []);
 
 
   return (
-    <div className={`${styles.aside} ${themeColor === 'dark' ? styles.darkAside : ''}`}>
+    <div className={`${styles.aside}`}>
       <div className={styles.siderContent}>
         <div className={styles.logo}>
           <Icon width='72px' name={"FAZER"} isActive={false} onClick={() => {}} />
@@ -69,9 +56,6 @@ const AsideMenu = () => {
         </div>
       </div>
       
-      <div className={styles.lightDarkContainer}>
-        <LightDark />
-      </div>
     </div>
   );
 };
