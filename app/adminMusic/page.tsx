@@ -8,11 +8,16 @@ import styles from './adminMusic.module.scss'
 import Cookies from "js-cookie";
 import Input from '../Components/Input/input'
 import Button from '../Components/Button/Button'
+interface MusicData {
+    id: string; 
+    name: string;
+    createdAt: string;
+}
 
 export default function AdminMusic() {
     const [albumTitle, setAlbumTitle] = useState('');
     const [messageApi, contextHolder] = message.useMessage();
-    const [data1, setData1] = useState<any[]>([]); // Use a specific type if you have it
+    const [data1, setData1] = useState<MusicData[]>([]);
     const [search123, setSearch1] = useState('');
     const [musicUrl, setMusicUrl] = useState('');
     const [artistId, setArtistId] = useState('');
@@ -127,18 +132,18 @@ export default function AdminMusic() {
                                     </div>
                                 </div>
                                 {data1.filter(item =>
-                                    item.name.toLowerCase().includes(search123.toLowerCase())
-                                ).map((item, index) => (
-                                    <div className={styles.ArtistInfo} key={index}>
-                                        <div className={styles.items}>
-                                            <p>{item.name}</p>
-                                            <p>{"active"}</p>
-                                            <p>{item.id}</p>
-                                            <p>{item.createdAt}</p>
-                                            <p className={styles.Active}>{'Active'}</p>
-                                        </div>
-                                    </div>
-                                ))}
+    item.name.toLowerCase().includes(search123.toLowerCase())
+).map((item, index) => (
+    <div className={styles.ArtistInfo} key={index}>
+        <div className={styles.items}>
+            <p>{item.name}</p>
+            <p>{"active"}</p>
+            <p>{item.id}</p>
+            <p>{item.createdAt}</p>
+            <p className={styles.Active}>{'Active'}</p>
+        </div>
+    </div>
+))}
                             </div>
                         </div>
                     </div>

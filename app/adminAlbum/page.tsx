@@ -12,12 +12,13 @@ import Cookies from "js-cookie";
 type Artist = {
   createdAt: ReactNode;
   releaseDate: ReactNode;
-  title: any;
+  title: string | null;  
   id: number;
   firstName: string;
   lastName: string;
   biography: string;
 };
+
 export default function AdminAlbum() {
   const [messageApi, contextHolder] = message.useMessage();
   const [albumTitle, setAlbumTitle] = useState<string>('');
@@ -127,18 +128,19 @@ export default function AdminAlbum() {
                   </div>
                 </div>
                 {getData.filter(item =>
-                  item.title.toLowerCase().includes(search.toLowerCase())
-                ).map((item, index) => (
-                  <div className={styles.ArtistInfo} key={index}>
-                    <div className={styles.items}>
-                      <p>{item.title}</p>
-                      <p>{item.releaseDate}</p>
-                      <p>{item.id}</p>
-                      <p>{item.createdAt}</p>
-                      <p className={styles.Active}>{'Active'}</p>
-                    </div>
-                  </div>
-                ))}
+  item.title?.toLowerCase().includes(search.toLowerCase()) // Use optional chaining to prevent errors
+).map((item, index) => (
+  <div className={styles.ArtistInfo} key={index}>
+    <div className={styles.items}>
+      <p>{item.title || 'Unknown Title'}</p> {/* Fallback if title is null */}
+      <p>{item.releaseDate}</p>
+      <p>{item.id}</p>
+      <p>{item.createdAt}</p>
+      <p className={styles.Active}>{'Active'}</p>
+    </div>
+  </div>
+))}
+
               </div>
             </div>
           </div>
