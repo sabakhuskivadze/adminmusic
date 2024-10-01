@@ -80,7 +80,7 @@ export default function AdminAlbum() {
           content: 'Image uploaded successfully!',
         });
       }
-    } catch (error) {
+    } catch  {
       messageApi.error({
         type: 'error',
         content: 'რატომ გავიხადე?',
