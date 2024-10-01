@@ -36,7 +36,7 @@ const Login = () => {
       localStorage.setItem("token", response.data.token);
 
       // Redirect after successful login
-      router.replace("http://localhost:3000");
+      router.replace("https://main.d183tg6ytcgr0p.amplifyapp.com");
     } catch (error) { 
       console.error('Login error:', error);
     }
