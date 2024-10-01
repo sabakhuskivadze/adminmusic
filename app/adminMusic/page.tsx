@@ -12,18 +12,13 @@ import Button from '../Components/Button/Button'
 export default function AdminMusic() {
     const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
     const [artistName, setArtistName] = useState("");
-    const [artistLastname, setArtistLastname] = useState("");
     const [artistBiography, setArtistBiography] = useState("");
-    const [emails, setEmails] = useState("");
     const [albumTitle, setAlbumTitle] = useState('');
-    const [releaseDate, setReleaseDate] = useState('');
-    const [switchChecked, setSwitchChecked] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
     const [showAddArtist, setShowaddArtist] = useState(false);
     const [listArtist, setListArtist] = useState(true);
     const [getData, setGetData] = useState([]);
     const [search123, setSearch1] = useState('');
-    const [searchData, setSearchData] = useState([]);
     const [musicUrl, setMusicUrl] = useState('');
     const [artistId, setArtistId] = useState('');
     const [showList, setShowList] = useState(true);

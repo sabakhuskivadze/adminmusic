@@ -21,8 +21,6 @@ type Artist = {
 export default function AdminAlbum() {
   const [artistName, setArtistName] = useState<string>("");
   const [artistLastname, setArtistLastname] = useState<string>("");
-  const [artistMusicIds, setArtistMusicIds] = useState<string>("");
-  const [artistAlbumId, setArtistAlbumId] = useState<string>("");
   const [themeColor, setThemeColor] = useState<string | null>(getCookie("theme") ?? null);
   const [albumTitle, setAlbumTitle] = useState<string>('');
   const [releaseDate1, setReleaseDate1] = useState<string>('');
@@ -33,11 +31,8 @@ export default function AdminAlbum() {
   const [emails, setEmails] = useState<string>("");
   const [releaseDate, setReleaseDate] = useState<string>('');
   const [switchChecked, setSwitchChecked] = useState<boolean>(false);
-  const [showAddArtist, setShowAddArtist] = useState<boolean>(false);
-  const [listArtist, setListArtist] = useState<boolean>(true);
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState<string>('');
-  const [searchData, setSearchData] = useState<unknown[]>([]); // Changed from any[] to unknown[]
   const [showList, setShowList] = useState<boolean>(true);
   const [showAdd, setShowAdd] = useState<boolean>(false);
 
