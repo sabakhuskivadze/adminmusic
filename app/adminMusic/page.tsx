@@ -22,6 +22,7 @@ export default function AdminMusic() {
     const [musicUrl, setMusicUrl] = useState('');
     const [artistId, setArtistId] = useState('');
     const [showList, setShowList] = useState(true)
+    const [showListadd, setShowlistadd] = useState(false)
     const [artistImage, setArtistImage] = useState<File | null>(null); 
   
   
@@ -126,6 +127,7 @@ export default function AdminMusic() {
 
     const click1 = () => {
         setShowList(false);
+        setShowlistadd(true)
     };
     return (
         <>
@@ -187,7 +189,7 @@ export default function AdminMusic() {
 
                 </div>
             )}
-            {(
+            {showListadd &&(
                 <div className={styles.mainContent}>
                     <Aside />
                     <div className={`${styles.static}`}>
