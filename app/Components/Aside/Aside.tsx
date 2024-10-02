@@ -29,24 +29,24 @@ const AsideMenu = () => {
         </div>
         <div className={styles.menuItems}>
         <MenuItem
-  name={"Artists"}
+  name={"artists"}
   isActive={activeItem === "Artists"}
   onClick={() => handleMenuItemClick("Artists", "/adminArtist")} // Use relative paths
 />
 <MenuItem
-  name={"Users"}
+  name={"users"}
   isActive={activeItem === "Users"}
   onClick={() => handleMenuItemClick("Users", "/userList")} // Use relative paths
 />
 
 <MenuItem
-  name={"Music"}
+  name={"music"}
   isActive={activeItem === "Musics"}
   onClick={() => handleMenuItemClick("Musics", "/adminMusic")} // Use relative paths
 />
 
 <MenuItem
-  name={"Albums"}
+  name={"albums"}
   isActive={activeItem === "Albums"}
   onClick={() => handleMenuItemClick("Albums", "/adminAlbum")} // Use relative paths
 />
