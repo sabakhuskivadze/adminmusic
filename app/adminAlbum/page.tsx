@@ -239,7 +239,7 @@ export default function AdminAlbum() {
                 <span>Albums musicIds</span>
                 <Input
                   onchange={(e) => setMusicId(e.target.value)}
-                  type="number"
+                  type="text"
                   placeholder=""
                   mode="white"
                   state="neutral"
