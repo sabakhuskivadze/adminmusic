@@ -41,13 +41,14 @@ export default function AdminAlbum() {
 
   const suggest = async () => {
     const userToken = getCookie("userToken");
+    const array = [musicId]
     try {
       const { data } = await axios.post(
         "https://music-back-1s59.onrender.com/album",
         {
           title: albumTitle,
           releaseDate: releaseDate1,
-          musicIds: [String(musicId)],
+          musicIds: [array.map(Number)],
           artistId: Number(artistId),
         },
         {
