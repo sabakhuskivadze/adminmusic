@@ -48,7 +48,7 @@ export default function AdminAlbum() {
         {
           title: albumTitle,
           releaseDate: releaseDate1,
-          musicIds: [array.map(Number)],
+          musicIds: [array[0].split(',').map(num => Number(num.trim()))],
           artistId: Number(artistId),
         },
         {
@@ -240,7 +240,7 @@ export default function AdminAlbum() {
                 <span>Albums musicIds</span>
                 <Input
                   onchange={(e) => setMusicId(e.target.value)}
-                  type="text"
+                  type="number"
                   placeholder=""
                   mode="white"
                   state="neutral"
