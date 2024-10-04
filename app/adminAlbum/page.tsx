@@ -47,7 +47,7 @@ export default function AdminAlbum() {
         {
           title: albumTitle,
           releaseDate: releaseDate1,
-          musicIds: [Number(musicId)],
+          musicIds: [String(musicId)],
           artistId: Number(artistId),
         },
         {
