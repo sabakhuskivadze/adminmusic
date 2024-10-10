@@ -24,15 +24,14 @@ export default function AdminAlbum() {
   const [albumTitle, setAlbumTitle] = useState<string>('');
   const [releaseDate1, setReleaseDate1] = useState<string>('');
   const [artistId, setArtistId] = useState<string>('');
-  const [musicId, setMusicId] = useState<string>('');
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState<string>('');
   const [showList, setShowList] = useState<boolean>(true);
   const [showAdd, setShowAdd] = useState<boolean>(false);
   const [artistImage, setArtistImage] = useState<File | null>(null);
-  const [inputLength, setInputLength] = useState<number>(1);
+
   const [array, setArray] = useState<string[]>([])
-  const [sendData, setSentData] = useState<number[]>([])
+
 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +45,7 @@ export default function AdminAlbum() {
     const userToken = getCookie("userToken");
   
     // Update sendData directly from array
-    setSentData(array.map(Number));
+
   
     try {
       const { data } = await axios.post(
@@ -151,7 +150,6 @@ export default function AdminAlbum() {
   
     if (value) {
       const numValue = Number(value);
-      setInputLength(numValue);
       setArray(Array(numValue).fill(''));
     }
   };
