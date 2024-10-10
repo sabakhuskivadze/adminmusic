@@ -83,13 +83,6 @@ const Login = () => {
             </div>
           </div>
         </div>
-
-        <div className={styles.contFooter}>
-          <button className={styles.signInBTN} onClick={authUser}>Sign In</button>
-          <span onClick={() => router.push('./SignUp')}>
-            Don’t Have An Account? <span className={styles.createAcc}>Create An Account</span>
-          </span>
-        </div>
       </div>
     </div>
   );

@@ -199,24 +199,14 @@ export default function ArtistAdd() {
               />
               <Switch onChange={onChange} />
               <div className={styles.img}>
+                <h1>photo upload</h1>
               <input type="file" onChange={handleFileChange} />
                 <div className={styles.imageText}>
-                  <span className={styles.iimg}>Travis Scott</span>
-                  <span>Profile Photo</span>
                   <div className={styles.buttons}>
-                    <Button
-                      text="Add"
-                      width="63px"
-                      backgroundColor="#FF5F5F"
-                      borderRadius="5px"
-                      textColor="#FFFFFF"
-                      border="none"
-                      padding='4px 16px'
-                    />
                     <Space>
                       <Button
                         click={suggest}
-                        text="Suggest"
+                        text="Add artist"
                         width="90px"
                         backgroundColor="#FF5F5F"
                         borderRadius="5px"

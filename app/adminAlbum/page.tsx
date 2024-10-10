@@ -1,7 +1,7 @@
 "use client";
 import { message, Space } from 'antd';
 import axios from 'axios';
-import { useState, useEffect, ReactNode } from 'react';
+import { useState, useEffect, ReactNode, MouseEvent } from 'react';
 import Aside, { getCookie } from '../Components/Aside/Aside';
 import Icon from '../Components/Icon/Icon';
 import styles from './adminAlbum.module.scss';
@@ -12,7 +12,7 @@ import Cookies from "js-cookie";
 type Artist = {
   createdAt: ReactNode;
   releaseDate: ReactNode;
-  title: string | null;  
+  title: string | null;
   id: number;
   firstName: string;
   lastName: string;
@@ -29,7 +29,10 @@ export default function AdminAlbum() {
   const [search, setSearch] = useState<string>('');
   const [showList, setShowList] = useState<boolean>(true);
   const [showAdd, setShowAdd] = useState<boolean>(false);
-  const [artistImage, setArtistImage] = useState<File | null>(null); 
+  const [artistImage, setArtistImage] = useState<File | null>(null);
+  const [inputLength, setInputLength] = useState<number>(1);
+  const [array, setArray] = useState<string[]>([])
+  const [sendData, setSentData] = useState<number[]>([])
 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,14 +44,17 @@ export default function AdminAlbum() {
 
   const suggest = async () => {
     const userToken = getCookie("userToken");
-    const array = [musicId]
+  
+    // Update sendData directly from array
+    setSentData(array.map(Number));
+  
     try {
       const { data } = await axios.post(
         "https://music-back-1s59.onrender.com/album",
         {
           title: albumTitle,
           releaseDate: releaseDate1,
-          musicIds: [array[0].split(',').map(num => Number(num.trim()))],
+          musicIds: array.map(Number), // Pass converted array directly
           artistId: Number(artistId),
         },
         {
@@ -59,20 +65,20 @@ export default function AdminAlbum() {
       );
       messageApi.open({
         type: 'success',
-        content: 'წარმატებით შექიმნა!',
+        content: 'წარმატებით შეიქმნა!',
       });
-
+  
       if (artistImage && data?.id) {
         const formData = new FormData();
-        formData.append("file", artistImage); // Append the file to FormData
-
+        formData.append("file", artistImage);
+  
         await axios.post(
-          `https://music-back-1s59.onrender.com/file?artistId=${data.id}`,
+          `https://music-back-1s59.onrender.com/file?albumId=${data.id}`, // Use albumId instead of artistId
           formData,
           {
             headers: {
               Authorization: `Bearer ${userToken}`,
-              'Content-Type': 'multipart/form-data', // Important for file upload
+              'Content-Type': 'multipart/form-data',
             },
           }
         );
@@ -81,13 +87,15 @@ export default function AdminAlbum() {
           content: 'Image uploaded successfully!',
         });
       }
-    } catch  {
+    } catch {
       messageApi.error({
         type: 'error',
         content: 'რატომ გავიხადე?',
       });
     }
   };
+  
+  
 
   useEffect(() => {
     const userToken = Cookies.get("userToken") ?? null;
@@ -107,6 +115,8 @@ export default function AdminAlbum() {
         });
     }
   }, []);
+
+
   useEffect(() => {
     const userToken = Cookies.get("userToken") ?? null;
 
@@ -134,9 +144,26 @@ export default function AdminAlbum() {
     setShowAdd(true);
   };
 
-
+  const handleClick = (e: MouseEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const inputField = (e.target as HTMLInputElement).previousElementSibling as HTMLInputElement;
+    const value = inputField?.value;
+  
+    if (value) {
+      const numValue = Number(value);
+      setInputLength(numValue);
+      setArray(Array(numValue).fill(''));
+    }
+  };
   
 
+
+
+  const handleMusicIdChange = (index: number, value: string) => {
+    const newArray = [...array];
+    newArray[index] = value;
+    setArray(newArray);
+  };
   return (
     <>
       {contextHolder}
@@ -149,7 +176,7 @@ export default function AdminAlbum() {
                 <p className={styles.HeaderTitle}>Album</p>
               </div>
               <div className={styles.contaienrGroup}>
-                <button onClick={click} className={styles.btn1}>   <Icon height={"24px"} width={"24px"} name={"add"} isActive={false} onClick={() => { }} />Add Artists</button>
+                <button onClick={click} className={styles.btn1}>   <Icon height={"24px"} width={"24px"} name={"add"} isActive={false} onClick={() => { }} />Add album</button>
                 <div className={styles.search}>
                   <div className={styles.icon}>
                     <Icon name={"searchIcon"} isActive={false} />
@@ -178,18 +205,18 @@ export default function AdminAlbum() {
                   </div>
                 </div>
                 {getData.filter(item =>
-  item.title?.toLowerCase().includes(search.toLowerCase()) // Use optional chaining to prevent errors
-).map((item, index) => (
-  <div className={styles.ArtistInfo} key={index}>
-    <div className={styles.items}>
-      <p>{item.title || 'Unknown Title'}</p> {/* Fallback if title is null */}
-      <p>{item.releaseDate}</p>
-      <p>{item.id}</p>
-      <p>{item.createdAt}</p>
-      <p className={styles.Active}>{'Active'}</p>
-    </div>
-  </div>
-))}
+                  item.title?.toLowerCase().includes(search.toLowerCase()) // Use optional chaining to prevent errors
+                ).map((item, index) => (
+                  <div className={styles.ArtistInfo} key={index}>
+                    <div className={styles.items}>
+                      <p>{item.title || 'Unknown Title'}</p> {/* Fallback if title is null */}
+                      <p>{item.releaseDate}</p>
+                      <p>{item.id}</p>
+                      <p>{item.createdAt}</p>
+                      <p className={styles.Active}>{'Active'}</p>
+                    </div>
+                  </div>
+                ))}
 
               </div>
             </div>
@@ -238,41 +265,31 @@ export default function AdminAlbum() {
                   state="neutral"
                 />
                 <span>Albums musicIds</span>
-                <Input
-                  onchange={(e) => setMusicId(e.target.value)}
-                  type="number"
-                  placeholder=""
-                  mode="white"
-                  state="neutral"
-                />
+                <input type='number' placeholder="Enter number of Music IDs" className={styles.input}/>
+                <input type='submit' onClick={handleClick} className={styles.button} />
+
+                {/* Render input fields based on array length */}
+                {array.map((_, index) => (
+                  <Input
+                    key={index}
+                    onchange={(e) => handleMusicIdChange(index, e.target.value)}
+                    type="number"
+                    placeholder={`Music ID ${index + 1}`}
+                    mode="white"
+                    state="neutral"
+                  />
+                ))}
+
+
                 <div className={styles.img}>
-                <input type="file" onChange={handleFileChange} />
+                  <h1>Add photo</h1>
+                  <input type="file" onChange={handleFileChange} />
                   <div className={styles.imageText}>
-                    <span className={styles.iimg}>Travis Scott</span>
-                    <span>Profile Photo</span>
                     <div className={styles.buttons}>
-                      <Button
-                        text="Add"
-                        width="63px"
-                        backgroundColor="#FF5F5F"
-                        borderRadius="5px"
-                        textColor="#FFFFFF"
-                        border="none"
-                        padding='4px 16px'
-                      />
-                      <Button
-                        text="View"
-                        width="63px"
-                        backgroundColor="white"
-                        borderRadius="5px"
-                        textColor="#898989"
-                        border="none"
-                        padding='4px 16px'
-                      />
                       <Space>
                         <Button
                           click={suggest}
-                          text="Suggest"
+                          text="Add Album"
                           width="90px"
                           backgroundColor="#FF5F5F"
                           borderRadius="5px"

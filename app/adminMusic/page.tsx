@@ -175,7 +175,7 @@
                                 </div>
                                 <div className={styles.contaienrGroup}>
 
-                                    <button onClick={click1} className={styles.btn1}>   <Icon height={"24px"} width={"24px"} name={"add"} isActive={false} onClick={() => { }} />Add Artists</button>
+                                    <button onClick={click1} className={styles.btn1}>   <Icon height={"24px"} width={"24px"} name={"add"} isActive={false} onClick={() => { }} />Add music</button>
                                     <div className={styles.search}>
                                         <div className={styles.icon}>
                                             <Icon name={"searchIcon"} isActive={false} />
@@ -266,35 +266,18 @@
                                         />
 
                                         <div className={styles.img}>
+                                            <h1>photo upload</h1>
                                             <input type="file" onChange={handleFileChange} />
+                                            <h1>music upload</h1>
                                             <input type="file" onChange={handleFileChange1} />
                                             <div className={styles.imageText}>
 
-                                                <span className={styles.iimg}>Trakis Scott</span>
-                                                <span>Profile Photo</span>
+                                                
                                                 <div className={styles.buttons}>
-                                                    <Button
-                                                        text="Add"
-                                                        width="63px"
-                                                        backgroundColor="#FF5F5F"
-                                                        borderRadius="5px"
-                                                        textColor="#FFFFFF"
-                                                        border="none"
-                                                        padding='4px 16px'
-                                                    />
-                                                    <Button
-                                                        text="view"
-                                                        width="63px"
-                                                        backgroundColor="white"
-                                                        borderRadius="5px"
-                                                        textColor="#898989"
-                                                        border="none"
-                                                        padding='4px 16px'
-                                                    />
                                                     <Space>
                                                         <Button
                                                             click={suggest}
-                                                            text="Suggest"
+                                                            text="Add music"
                                                             width="90px"
                                                             backgroundColor="#FF5F5F"
                                                             borderRadius="5px"
