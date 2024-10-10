@@ -40,6 +40,21 @@ export default function UserList() {
         setSearch(e.target.value);
     };
 
+    const handleStatusClick = (userId: string) => {
+        const userToken = Cookies.get("userToken") 
+       axios.delete(`https://music-back-1s59.onrender.com/users/${userId}`,{
+        headers: {
+            Authorization: `Bearer ${userToken}`,
+        },
+       }).then((data) => {
+        console.log(data.data);
+       }).catch(() => {
+        console.log('s');
+        
+       })
+    };
+
+
     return (
         <div className={styles.mainContent}>
             <Aside />
@@ -82,7 +97,7 @@ export default function UserList() {
                                     <p>{item.email}</p>
                                     <p>{item.id}</p>
                                     <p>{item.lastLogin}</p>
-                                    <p className={styles.Active}>{'Active'}</p>
+                                    <p onClick={() => handleStatusClick(item.id)}  className={styles.Active}>{'Active'}</p>
                                 </div>
                             </div>
                         ))}
