@@ -83,6 +83,10 @@ const Login = () => {
             </div>
           </div>
         </div>
+
+        <div className={styles.contFooter}>
+          <button className={styles.signInBTN} onClick={authUser}>Sign In</button>
+        </div>
       </div>
     </div>
   );
