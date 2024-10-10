@@ -44,7 +44,7 @@ export default function UserList() {
         
         if (deletedAt) {
             // Unblocking the user
-            axios.patch(`https://music-back-1s59.onrender.com/users/${userId}`, {
+            axios.patch(`https://music-back-1s59.onrender.com/users/restore/${userId}`, {
                 deletedAt: null // Unblocking the user
             }, {
                 headers: {
