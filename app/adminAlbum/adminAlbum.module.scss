@@ -293,4 +293,17 @@ gap: 12px;
     background-color: #670093;
     transform: translateY(0);
   }
+
+  .submitandsearch {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+    
+  }
+
+  .line {
+    width: 800px;
+    background-color: gray;
+    height: 1px;
+  }
   

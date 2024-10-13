@@ -43,10 +43,10 @@ export default function AdminAlbum() {
 
   const suggest = async () => {
     const userToken = getCookie("userToken");
-  
+
     // Update sendData directly from array
 
-  
+
     try {
       const { data } = await axios.post(
         "https://music-back-1s59.onrender.com/album",
@@ -66,11 +66,11 @@ export default function AdminAlbum() {
         type: 'success',
         content: 'წარმატებით შეიქმნა!',
       });
-  
+
       if (artistImage && data?.id) {
         const formData = new FormData();
         formData.append("file", artistImage);
-  
+
         await axios.post(
           `https://music-back-1s59.onrender.com/file?albumId=${data.id}`, // Use albumId instead of artistId
           formData,
@@ -93,8 +93,8 @@ export default function AdminAlbum() {
       });
     }
   };
-  
-  
+
+
 
   useEffect(() => {
     const userToken = Cookies.get("userToken") ?? null;
@@ -147,13 +147,13 @@ export default function AdminAlbum() {
     e.preventDefault();
     const inputField = (e.target as HTMLInputElement).previousElementSibling as HTMLInputElement;
     const value = inputField?.value;
-  
+
     if (value) {
       const numValue = Number(value);
       setArray(Array(numValue).fill(''));
     }
   };
-  
+
 
 
 
@@ -262,9 +262,12 @@ export default function AdminAlbum() {
                   mode="white"
                   state="neutral"
                 />
-                <span>Albums musicIds</span>
-                <input type='number' placeholder="Enter number of Music IDs" className={styles.input}/>
-                <input type='submit' onClick={handleClick} className={styles.button} />
+              
+                <div className={styles.submitandsearch}>
+                  <span>Albums musicIds</span>
+                  <input type='number' placeholder="Enter number of Music IDs" className={styles.input} />
+                  <input type='submit' onClick={handleClick} className={styles.button} />
+                </div>
 
                 {/* Render input fields based on array length */}
                 {array.map((_, index) => (
