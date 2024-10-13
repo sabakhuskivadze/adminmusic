@@ -14,7 +14,13 @@ type Artist = {
   firstName: string;
   lastName: string;
   biography: string;
+  deletedAt?: string | null;
 };
+
+enum active {
+  Active = 'Active',
+  Block = 'Block'
+}
 
 export default function ArtistAdd() {
   const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
@@ -29,6 +35,7 @@ export default function ArtistAdd() {
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState('');
   const [searchData, setSearchData] = useState([]);
+  const [isActive, setActive] = useState<active[]>([])
 
   useEffect(() => {
     const updateTheme = () => {
@@ -55,9 +62,47 @@ export default function ArtistAdd() {
     setEmails(e.target.value);
   };
 
-  console.log(emails,searchData);
-  
-  
+
+  const handleStatusClick = (artistId: number, deletedAt?: string | null) => {
+    const userToken = Cookies.get("userToken");
+    
+    if (deletedAt) {
+        // Unblocking the user
+        axios.patch(`https://music-back-1s59.onrender.com/artist/restore/${artistId}`, {
+            deletedAt: null // Unblocking the user
+        }, {
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+            }
+        }).then((response) => {
+            console.log(response.data);
+            // Update the user status in local state
+            setGetData(prevData =>
+                prevData.map(user =>
+                    user.id == artistId ? { ...user, deletedAt: null } : user
+                )
+            );
+        }).catch((error) => {
+            console.error('Error unblocking user:', error);
+        });
+    } else {
+        // Deleting the user
+        axios.delete(`https://music-back-1s59.onrender.com/artist/${artistId}`, {
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+            },
+        })
+        .then((response) => {
+            console.log(response.data);
+            // Optionally, update the state to reflect the deletion
+            setGetData(prevData => prevData.filter(user => user.id !== artistId));
+        })
+        .catch((error) => {
+            console.error('Error deleting user:', error);
+        });
+    }
+};
+
 
   const onChange = (checked: boolean) => {
     setSwitchChecked(checked);
@@ -78,22 +123,22 @@ export default function ArtistAdd() {
         }
       }
     )
-    .then(() => {
-      messageApi.open({
-        type: 'success',
-        content: 'წარმატებით შექიმნა!',
+      .then(() => {
+        messageApi.open({
+          type: 'success',
+          content: 'წარმატებით შექიმნა!',
+        });
+        setTimeout(() => {
+          setShowAddArtist(false);
+          setListArtist(true);
+        }, 2000);
+      })
+      .catch(() => {
+        messageApi.error({
+          type: 'error',
+          content: 'რატომ გავიხადე?',
+        });
       });
-      setTimeout(() => {
-        setShowAddArtist(false);
-        setListArtist(true);
-      }, 2000);
-    })
-    .catch(() => {
-      messageApi.error({
-        type: 'error',
-        content: 'რატომ გავიხადე?',
-      });
-    });
   };
 
   const biographyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -130,16 +175,16 @@ export default function ArtistAdd() {
           Authorization: `Bearer ${userToken}`,
         },
       })
-      .then((response) => {
-        setSearchData(response.data);
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          console.log('Unauthorized: Invalid token');
-        } else {
-          console.log('Error:', error.message);
-        }
-      });
+        .then((response) => {
+          setSearchData(response.data);
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            console.log('Unauthorized: Invalid token');
+          } else {
+            console.log('Error:', error.message);
+          }
+        });
     }
   }, [search]);
 
@@ -195,13 +240,13 @@ export default function ArtistAdd() {
                 state="neutral"
               />
               <span>Biography</span>
-              <textarea 
-  onChange={biographyChange} 
-  disabled={switchChecked} 
-  className={styles.BiographyText} 
-  cols={30} 
-  rows={60}
-/>
+              <textarea
+                onChange={biographyChange}
+                disabled={switchChecked}
+                className={styles.BiographyText}
+                cols={30}
+                rows={60}
+              />
 
               <Switch onChange={onChange} />
               <div className={styles.img}>
@@ -284,19 +329,19 @@ export default function ArtistAdd() {
                 </div>
 
                 {
-                 getData.filter((items) =>
-                 items.firstName.toLowerCase().includes(search.toLowerCase()) // Case-insensitive search
-               ).map((items, index) => (
-                 <div className={styles.ArtistInfo} key={index}> {/* Add key here */}
-                   <div className={styles.items}>
-                     <p className={styles.itemsText}>{items.firstName}</p>
-                     <p className={styles.itemsText}>{`${items.lastName}@gmail.com`}</p>
-                     <p className={styles.itemsText}>{String(items.id)}</p>
-                     <p className={styles.itemsText}>{items.biography}</p>
-                     <p className={styles.Active}>{'Active'}</p>
-                   </div>
-                 </div>
-               ))
+                  getData.filter((items) =>
+                    items.firstName.toLowerCase().includes(search.toLowerCase()) // Case-insensitive search
+                  ).map((items, index) => (
+                    <div className={styles.ArtistInfo} key={index}> {/* Add key here */}
+                      <div className={styles.items}>
+                        <p className={styles.itemsText}>{items.firstName}</p>
+                        <p className={styles.itemsText}>{`${items.lastName}@gmail.com`}</p>
+                        <p className={styles.itemsText}>{String(items.id)}</p>
+                        <p className={styles.itemsText}>{items.biography}</p>
+                        <p className={items.deletedAt ? styles.Block : styles.Active} onClick={() => handleStatusClick(items.id, items.deletedAt)}>{items.deletedAt ? 'Block' : 'Active'}</p>
+                      </div>
+                    </div>
+                  ))
                 }
 
 
