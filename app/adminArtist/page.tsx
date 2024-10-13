@@ -1,54 +1,123 @@
 "use client"
-import Aside, { getCookie } from '../Components/Aside/Aside'
 import styles from './artist.module.scss'
 import { useState, useEffect } from 'react'
-import Icon from '../Components/Icon/Icon'
-import Input from '../Components/Input/input'
-import Button from '../Components/Button/Button'
 import { Switch } from 'antd';
 import Cookies from "js-cookie";
 import axios from 'axios'
 import { message, Space } from 'antd';
+import Aside, { getCookie } from '../Components/Aside/Aside';
+import Icon from '../Components/Icon/Icon';
+import Input from '../Components/Input/input';
+import Button from '../Components/Button/Button';
 type Artist = {
   id: number;
   firstName: string;
   lastName: string;
   biography: string;
+  deletedAt?: string | null;
 };
+
+enum active {
+  Active = 'Active',
+  Block = 'Block'
+}
+
 export default function ArtistAdd() {
+  const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
   const [artistName, setArtistName] = useState("");
-  const [artistLastname, setArtistLastname] = useState("");
+  const [artistLastname, setArtistLastname] = useState("")
   const [artistBiography, setArtistBiography] = useState("");
+  const [emails, setEmails] = useState("");
   const [switchChecked, setSwitchChecked] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [showAddArtist, setShowAddArtist] = useState(false);
   const [listArtist, setListArtist] = useState(true);
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState('');
-  const [artistImage, setArtistImage] = useState<File | null>(null); 
+  const [searchData, setSearchData] = useState([]);
+  const [isActive, setActive] = useState<active[]>([])
+
+  useEffect(() => {
+    const updateTheme = () => {
+      const newTheme = getCookie("theme") || 'null'; // Provide fallback value
+      setThemeColor(String(newTheme));
+    };
+
+    updateTheme();
+
+    const themeInterval = setInterval(updateTheme, 0); // Adjust interval as needed
+
+    return () => clearInterval(themeInterval);
+  }, []);
+
+  const firstname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setArtistName(e.target.value);
+  };
+
+  const lastname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setArtistLastname(e.target.value);
+  };
+
+  const email = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmails(e.target.value);
+  };
 
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setArtistImage(e.target.files[0]); // Store the selected file
+  const handleStatusClick = (artistId: number, deletedAt?: string | null) => {
+    const userToken = Cookies.get("userToken");
+    
+    if (deletedAt) {
+        // Unblocking the user
+        axios.patch(`https://music-back-1s59.onrender.com/artist/restore/${artistId}`, {
+            deletedAt: null // Unblocking the user
+        }, {
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+            }
+        }).then((response) => {
+            console.log(response.data);
+            // Update the user status in local state
+            setGetData(prevData =>
+                prevData.map(user =>
+                    user.id == artistId ? { ...user, deletedAt: null } : user
+                )
+            );
+
+        }).catch((error) => {
+            console.error('Error unblocking user:', error);
+        });
+
+
+    } else {
+        // Deleting the user
+        axios.delete(`https://music-back-1s59.onrender.com/artist/${artistId}`, {
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+            },
+        })
+        .then((response) => {
+            console.log(response.data);
+            // Optionally, update the state to reflect the deletion
+            setGetData(prevData => prevData.filter(user => user.id !== artistId));
+            if(typeof window !== 'undefined') {
+              window.location.reload();
+            }
+        })
+        .catch((error) => {
+            console.error('Error deleting user:', error);
+        });
+
+
     }
-  };
+};
 
-  console.log(artistImage);
-  
-
-  const handleChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setter(e.target.value);
-  };
 
   const onChange = (checked: boolean) => {
     setSwitchChecked(checked);
   };
 
   const suggest = () => {
-    const userToken = getCookie("userToken");
-  
-    // First, create the artist
+    const userToken = getCookie("userToken")
     axios.post(
       "https://music-back-1s59.onrender.com/artist",
       {
@@ -62,55 +131,27 @@ export default function ArtistAdd() {
         }
       }
     )
-    .then((data) => {
-      // Notify success
-      messageApi.open({
-        type: 'success',
-        content: 'წარმატებით შექიმნა!',
-      });
-  
-      // If an image is selected, upload it
-      if (artistImage) {
-        const formData = new FormData();
-        formData.append("file", artistImage); // Append the file to FormData
-  
-        axios.post(
-          `https://music-back-1s59.onrender.com/file?artistId=${data.data.id}`, 
-          formData, 
-          {
-            headers: {
-              Authorization: `Bearer ${userToken}`,
-              'Content-Type': 'multipart/form-data' // Important for file upload
-            }
-          }
-        )
-        .then(() => {
-          messageApi.open({
-            type: 'success',
-            content: 'Image uploaded successfully!',
-          });
-        })
-        .catch(() => {
-          messageApi.error({
-            type: 'error',
-            content: 'Image upload failed!',
-          });
+      .then(() => {
+        messageApi.open({
+          type: 'success',
+          content: 'წარმატებით შექიმნა!',
         });
-      }
-  
-      setTimeout(() => {
-        setShowAddArtist(false);
-        setListArtist(true);
-      }, 2000);
-    })
-    .catch(() => {
-      messageApi.error({
-        type: 'error',
-        content: 'Failed to create artist!',
+        setTimeout(() => {
+          setShowAddArtist(false);
+          setListArtist(true);
+        }, 2000);
+      })
+      .catch(() => {
+        messageApi.error({
+          type: 'error',
+          content: 'რატომ გავიხადე?',
+        });
       });
-    });
   };
-  
+
+  const biographyChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setArtistBiography(e.target.value);
+  };
 
   const searchArtist = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -118,7 +159,8 @@ export default function ArtistAdd() {
 
   useEffect(() => {
     const userToken = Cookies.get("userToken");
-    axios.get('https://music-back-1s59.onrender.com/artist', {
+
+    axios.get('https://music-back-1s59.onrender.com/artist/admin/get', {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },
@@ -133,16 +175,16 @@ export default function ArtistAdd() {
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userToken = getCookie("userToken");
-      if (userToken && search) {
-        axios.get(`https://music-back-1s59.onrender.com/search/artist?search=${search}`, {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        })
+    const userToken = localStorage.getItem("token");
+
+    if (userToken && search) {
+      axios.get(`https://music-back-1s59.onrender.com/search/artist?search=${search}`, {
+        headers: {
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
         .then((response) => {
-          setGetData(response.data); // Assuming you want to update getData with search results
+          setSearchData(response.data);
         })
         .catch((error) => {
           if (error.response && error.response.status === 401) {
@@ -151,7 +193,6 @@ export default function ArtistAdd() {
             console.log('Error:', error.message);
           }
         });
-      }
     }
   }, [search]);
 
@@ -161,7 +202,7 @@ export default function ArtistAdd() {
       {showAddArtist && (
         <div className={styles.mainContent}>
           <Aside />
-          <div className={`${styles.static}`}>
+          <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
             <div className={styles.headerAdmin}>
               <div className={styles.containerIcon}>
                 <Icon height={"32px"} width={"32px"} name={"Arrow"} isActive={false} onClick={() => { }} />
@@ -174,7 +215,7 @@ export default function ArtistAdd() {
               <span>First Name</span>
               <Input
                 disabled={switchChecked}
-                onchange={handleChange(setArtistName)}
+                onchange={firstname}
                 type="text"
                 placeholder=""
                 mode="white"
@@ -183,39 +224,76 @@ export default function ArtistAdd() {
               <span>Last Name</span>
               <Input
                 disabled={switchChecked}
-                onchange={handleChange(setArtistLastname)}
+                onchange={lastname}
+                type="text"
+                placeholder=""
+                mode="white"
+                state="neutral"
+              />
+              <span>Email</span>
+              <Input
+                disabled={switchChecked}
+                onchange={email}
+                type="text"
+                placeholder=""
+                mode="white"
+                state="neutral"
+              />
+              <span>User</span>
+              <Input
+                disabled={switchChecked}
                 type="text"
                 placeholder=""
                 mode="white"
                 state="neutral"
               />
               <span>Biography</span>
-              <textarea 
-                onChange={handleChange(setArtistBiography)} 
-                disabled={switchChecked} 
-                className={styles.BiographyText} 
-                cols={30} 
+              <textarea
+                onChange={biographyChange}
+                disabled={switchChecked}
+                className={styles.BiographyText}
+                cols={30}
                 rows={60}
               />
+
               <Switch onChange={onChange} />
               <div className={styles.img}>
-                <h1>photo upload</h1>
-              <input type="file" onChange={handleFileChange} />
+                <input type="file" />
                 <div className={styles.imageText}>
+                  <span className={styles.iimg}>Trakis Scott</span>
+                  <span>Profile Photo</span>
                   <div className={styles.buttons}>
-                    <Space>
-                      <Button
-                        click={suggest}
-                        text="Add artist"
-                        width="90px"
-                        backgroundColor="#FF5F5F"
-                        borderRadius="5px"
-                        textColor="#FFFFFF"
-                        border="none"
-                        padding='4px 16px'
-                      />
-                    </Space>
+                    <Button
+                      text="Add"
+                      width="63px"
+                      backgroundColor="#FF5F5F"
+                      borderRadius="5px"
+                      textColor="#FFFFFF"
+                      border="none"
+                      padding='4px 16px'
+                    />
+                    <Button
+                      text="view"
+                      width="63px"
+                      backgroundColor="white"
+                      borderRadius="5px"
+                      textColor="#898989"
+                      border="none"
+                      padding='4px 16px'
+                    />
                   </div>
+                  <Space>
+                    <Button
+                      click={suggest}
+                      text="Suggest"
+                      width="90px"
+                      backgroundColor="#FF5F5F"
+                      borderRadius="5px"
+                      textColor="#FFFFFF"
+                      border="none"
+                      padding='4px 16px'
+                    />
+                  </Space>
                 </div>
               </div>
             </div>
@@ -225,7 +303,7 @@ export default function ArtistAdd() {
       {listArtist && (
         <div className={styles.mainContent}>
           <Aside />
-          <div className={`${styles.static} `}>
+          <div className={`${styles.static} ${themeColor === 'dark' ? styles.darkStatic : ''}`}>
             <div className={styles.container}>
               <div className={styles.headerAdmin}>
                 <div className={styles.containerIcon}>
@@ -250,28 +328,31 @@ export default function ArtistAdd() {
               <div className={styles.list}>
                 <div className={styles.listInfo}>
                   <div className={styles.items}>
-                    <p>Name</p>
-                    <p>Email</p>
-                    <p>User</p>
-                    <p>Profile</p>
-                    <p>Status</p>
+                    <p className={styles.listinfoTitle}>Name</p>
+                    <p className={styles.listinfoTitle}>Email</p>
+                    <p className={styles.listinfoTitle}>User</p>
+                    <p className={styles.listinfoTitle}>Profile</p>
+                    <p className={styles.listinfoTitle}>Status</p>
                   </div>
                 </div>
 
                 {
-                 getData.filter((items) =>
-                 items.firstName.toLowerCase().includes(search.toLowerCase()) // Case-insensitive search
-               ).map((items, index) => (
-                 <div className={styles.ArtistInfo} key={index}> {/* Add key here */}
-                   <div className={styles.items}>
-                     <p>{items.firstName}</p>
-                     <p>{`${items.lastName}@gmail.com`}</p>
-                     <p>{String(items.id)}</p>
-                     <p>{items.biography}</p>
-                     <p className={styles.Active}>{'Active'}</p>
-                   </div>
-                 </div>
-               ))
+                  getData.filter((items) =>
+                    items.firstName.toLowerCase().includes(search.toLowerCase()) // Case-insensitive search
+                  ).map((items, index) => (
+                    <div className={styles.ArtistInfo} key={index}> {/* Add key here */}
+                      <div className={styles.items}>
+                        <p className={styles.itemsText}>{items.firstName}</p>
+                        <p className={styles.itemsText}>{`${items.lastName}@gmail.com`}</p>
+                        <p className={styles.itemsText}>{String(items.id)}</p>
+                        <p className={styles.itemsText}>{items.biography}</p>
+                        <p className={items.deletedAt ? styles.Block : styles.Active} onClick={() => handleStatusClick(items.id, items.deletedAt)}>{items.deletedAt ? 'Block' : 'Active'}</p>
+                      </div>
+                    </div>
+                  )
+
+                )
+
                 }
 
 

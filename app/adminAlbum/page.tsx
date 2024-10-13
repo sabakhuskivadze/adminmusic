@@ -17,6 +17,7 @@ type Artist = {
   firstName: string;
   lastName: string;
   biography: string;
+  deletedAt: string | null;
 };
 
 export default function AdminAlbum() {
@@ -107,6 +108,8 @@ export default function AdminAlbum() {
           },
         })
         .then((response) => {
+          console.log(response);
+          
           setGetData(response.data);
         })
         .catch((error) => {
@@ -115,17 +118,70 @@ export default function AdminAlbum() {
     }
   }, []);
 
+  const handleStatusClick = (albumId: number, deletedAt?: string | null) => {
+    const userToken = Cookies.get("userToken");
+    console.log(deletedAt);
+    
+    if (deletedAt) {
+        // Unblocking the user
+        axios.patch(`https://music-back-1s59.onrender.com/album/restore/${albumId}`, {
+            deletedAt: null // Unblocking the user
+        }, {
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+            }
+        }).then((response) => {
+            console.log(response.data);
+            // Update the user status in local state
+            setGetData(prevData =>
+                prevData.map(user =>
+                    user.id == albumId ? { ...user, deletedAt: null } : user
+                )
+            );
+        }).catch((error) => {
+            console.error('Error unblocking user:', error);
+        });
+
+
+    } else {
+        // Deleting the user
+        axios.delete(`https://music-back-1s59.onrender.com/album/${albumId}`, {
+            headers: {
+                Authorization: `Bearer ${userToken}`,
+            },
+        })
+        .then((response) => {
+            console.log(response.data);
+            // Optionally, update the state to reflect the deletion
+            setGetData(prevData => prevData.filter(user => user.id != Number(artistId)));
+
+
+            if(typeof window != 'undefined') {
+              window.location.reload();
+            }
+
+        })
+        .catch((error) => {
+            console.error('Error deleting user:', error);
+        });
+
+
+    }
+};
+
 
   useEffect(() => {
     const userToken = Cookies.get("userToken") ?? null;
 
     if (userToken) {
-      axios.get('https://music-back-1s59.onrender.com/album', {
+      axios.get('https://music-back-1s59.onrender.com/album/admin/get', {
         headers: {
           Authorization: `Bearer ${userToken}`,
         },
       })
         .then((response) => {
+          console.log(response);
+          
           setGetData(response.data);
         })
         .catch((error) => {
@@ -205,13 +261,14 @@ export default function AdminAlbum() {
                 {getData.filter(item =>
                   item.title?.toLowerCase().includes(search.toLowerCase()) // Use optional chaining to prevent errors
                 ).map((item, index) => (
+                  
                   <div className={styles.ArtistInfo} key={index}>
                     <div className={styles.items}>
                       <p>{item.title || 'Unknown Title'}</p> {/* Fallback if title is null */}
                       <p>{item.releaseDate}</p>
                       <p>{item.id}</p>
                       <p>{item.createdAt}</p>
-                      <p className={styles.Active}>{'Active'}</p>
+                      <p className={item.deletedAt ? styles.Block : styles.Active} onClick={() => handleStatusClick(item.id, item.deletedAt)}>{item.deletedAt ? 'Block' : 'Active'}</p>
                     </div>
                   </div>
                 ))}

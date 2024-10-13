@@ -82,9 +82,7 @@ export default function ArtistAdd() {
                     user.id == artistId ? { ...user, deletedAt: null } : user
                 )
             );
-            if(typeof window !== 'undefined') {
-              window.location.reload();
-            }
+
         }).catch((error) => {
             console.error('Error unblocking user:', error);
         });

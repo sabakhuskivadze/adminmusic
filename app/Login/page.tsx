@@ -79,7 +79,6 @@ const Login = () => {
           </div>
           <div className={styles.passwordOptions}>
             <div className={styles.forgetPassword}>
-              <span>Forget Password</span>
             </div>
           </div>
         </div>
