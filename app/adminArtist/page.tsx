@@ -17,10 +17,6 @@ type Artist = {
   deletedAt?: string | null;
 };
 
-enum active {
-  Active = 'Active',
-  Block = 'Block'
-}
 
 export default function ArtistAdd() {
   const [themeColor, setThemeColor] = useState(getCookie("theme") || "");
