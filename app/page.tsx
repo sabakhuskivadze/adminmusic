@@ -27,15 +27,12 @@ export default function ArtistAdd() {
   const [artistName, setArtistName] = useState("");
   const [artistLastname, setArtistLastname] = useState("")
   const [artistBiography, setArtistBiography] = useState("");
-  const [emails, setEmails] = useState("");
   const [switchChecked, setSwitchChecked] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [showAddArtist, setShowAddArtist] = useState(false);
   const [listArtist, setListArtist] = useState(true);
   const [getData, setGetData] = useState<Artist[]>([]);
   const [search, setSearch] = useState('');
-  const [searchData, setSearchData] = useState([]);
-  const [isActive, setActive] = useState<active[]>([])
 
   useEffect(() => {
     const updateTheme = () => {
