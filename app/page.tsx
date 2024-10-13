@@ -55,9 +55,7 @@ export default function ArtistAdd() {
     setArtistLastname(e.target.value);
   };
 
-  const email = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmails(e.target.value);
-  };
+  
 
 
   const handleStatusClick = (artistId: number, deletedAt?: string | null) => {
@@ -180,8 +178,8 @@ export default function ArtistAdd() {
           Authorization: `Bearer ${userToken}`,
         },
       })
-        .then((response) => {
-          setSearchData(response.data);
+        .then(() => {
+
         })
         .catch((error) => {
           if (error.response && error.response.status === 401) {
@@ -230,7 +228,6 @@ export default function ArtistAdd() {
               <span>Email</span>
               <Input
                 disabled={switchChecked}
-                onchange={email}
                 type="text"
                 placeholder=""
                 mode="white"
