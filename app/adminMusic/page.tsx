@@ -9,9 +9,10 @@
     import Input from '../Components/Input/input'
     import Button from '../Components/Button/Button'
     interface MusicData {
-        id: string;
+        id: number;
         name: string;
         createdAt: string;
+        deletedAt: string | null;
     }
 
     export default function AdminMusic() {
@@ -50,11 +51,62 @@
         setArtistId(e.target.value);
     };
 
+    const handleStatusClick = (musicId: number, deletedAt?: string | null) => {
+        const userToken = Cookies.get("userToken");
+        
+        if (deletedAt) {
+            // Unblocking the user
+            axios.patch(`https://music-back-1s59.onrender.com/music/restore/${musicId}`, {
+                deletedAt: null // Unblocking the user
+            }, {
+                headers: {
+                    Authorization: `Bearer ${userToken}`,
+                }
+            }).then((response) => {
+                console.log(response.data);
+                // Update the user status in local state
+                setData1(prevData =>
+                    prevData.map(user =>
+                        user.id == musicId ? { ...user, deletedAt: null } : user
+                    )
+                );
+                if(typeof window !== 'undefined') {
+                  window.location.reload();
+                }
+            }).catch((error) => {
+                console.error('Error unblocking user:', error);
+            });
+    
+    
+        } else {
+            // Deleting the user
+            axios.delete(`https://music-back-1s59.onrender.com/music/${musicId}`, {
+                headers: {
+                    Authorization: `Bearer ${userToken}`,
+                },
+            })
+            .then((response) => {
+                console.log(response.data);
+                // Optionally, update the state to reflect the deletion
+                setData1(prevData => prevData.filter(user => user.id != Number(artistId)));
+                if(typeof window !== 'undefined') {
+                  window.location.reload();
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting user:', error);
+            });
+    
+    
+        }
+    };
+    
+
     const suggest = () => {
         const userToken = getCookie("userToken");
 
         axios.post(
-            "https://music-back-1s59.onrender.com/music",
+            "https://music-back-1s59.onrender.com/music/admin/get",
             {
                 name: albumTitle,
                 url: musicUrl,
@@ -212,7 +264,7 @@
                                                 <p>{"active"}</p>
                                                 <p>{item.id}</p>
                                                 <p>{item.createdAt}</p>
-                                                <p className={styles.Active}>{'Active'}</p>
+                                                <p className={item.deletedAt ? styles.Block : styles.Active} onClick={() => handleStatusClick(item.id, item.deletedAt)}>{item.deletedAt ? 'Block' : 'Active'}</p>
                                             </div>
                                         </div>
                                     ))}

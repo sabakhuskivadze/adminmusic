@@ -19,6 +19,18 @@
     background-color: #0E0E0E;
   }
 
+  .Block {
+    width: 83px;
+    height: 32px;
+    background-color: #C60A0A1A;
+    padding: 4px 24px;
+    border-radius: 16px;
+    color: #C60A0A;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+
   .headerAdmin{
     display: flex;
     align-items: center;

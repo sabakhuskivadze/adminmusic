@@ -27,12 +27,12 @@ export default function UserList() {
                     Authorization: `Bearer ${userToken}`,
                 },
             })
-            .then((response) => {
-                setGetData(response.data);
-            })
-            .catch((error) => {
-                console.error('Error fetching users:', error);
-            });
+                .then((response) => {
+                    setGetData(response.data);
+                })
+                .catch((error) => {
+                    console.error('Error fetching users:', error);
+                });
         }
     }, []);
 
@@ -41,7 +41,7 @@ export default function UserList() {
     };
     const handleStatusClick = (userId: string, deletedAt?: string | null) => {
         const userToken = Cookies.get("userToken");
-        
+
         if (deletedAt) {
             // Unblocking the user
             axios.patch(`https://music-back-1s59.onrender.com/users/restore/${userId}`, {
@@ -58,6 +58,9 @@ export default function UserList() {
                         user.id === userId ? { ...user, deletedAt: null } : user
                     )
                 );
+                if (typeof window !== 'undefined') {
+                    window.location.reload();
+                }
             }).catch((error) => {
                 console.error('Error unblocking user:', error);
             });
@@ -68,14 +71,17 @@ export default function UserList() {
                     Authorization: `Bearer ${userToken}`,
                 },
             })
-            .then((response) => {
-                console.log(response.data);
-                // Optionally, update the state to reflect the deletion
-                setGetData(prevData => prevData.filter(user => user.id !== userId));
-            })
-            .catch((error) => {
-                console.error('Error deleting user:', error);
-            });
+                .then((response) => {
+                    console.log(response.data);
+                    // Optionally, update the state to reflect the deletion
+                    setGetData(prevData => prevData.filter(user => user.id !== userId));
+                    if (typeof window !== 'undefined') {
+                        window.location.reload();
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error deleting user:', error);
+                });
         }
     };
 
@@ -92,11 +98,11 @@ export default function UserList() {
                             <div className={styles.icon}>
                                 <Icon name={"searchIcon"} isActive={false} />
                             </div>
-                            <input 
-                                onChange={searchArtist} 
-                                placeholder='Search' 
-                                type="text" 
-                                className={styles.artistSearch} 
+                            <input
+                                onChange={searchArtist}
+                                placeholder='Search'
+                                type="text"
+                                className={styles.artistSearch}
                             />
                         </div>
                     </div>
@@ -112,7 +118,7 @@ export default function UserList() {
                                 <p>Status</p>
                             </div>
                         </div>
-                        {getData.filter(item => 
+                        {getData.filter(item =>
                             item.name.toLowerCase().includes(search.toLowerCase())
                         ).map((item) => (
                             <div className={styles.ArtistInfo} key={item.id}>
@@ -121,8 +127,8 @@ export default function UserList() {
                                     <p>{item.email}</p>
                                     <p>{item.id}</p>
                                     <p>{item.lastLogin}</p>
-                                    <p 
-                                        onClick={() => handleStatusClick(item.id, item.deletedAt)} 
+                                    <p
+                                        onClick={() => handleStatusClick(item.id, item.deletedAt)}
                                         className={`${styles.Active} ${item.deletedAt ? styles.Block : ''}`}
                                     >
                                         {item.deletedAt ? "Block" : "Active"}

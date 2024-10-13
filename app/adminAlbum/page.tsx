@@ -101,7 +101,7 @@ export default function AdminAlbum() {
 
     if (userToken) {
       axios
-        .get('https://music-back-1s59.onrender.com/album', {
+        .get('https://music-back-1s59.onrender.com/album/admin/get', {
           headers: {
             Authorization: `Bearer ${userToken}`,
           },

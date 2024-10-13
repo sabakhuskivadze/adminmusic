@@ -82,9 +82,14 @@ export default function ArtistAdd() {
                     user.id == artistId ? { ...user, deletedAt: null } : user
                 )
             );
+            if(typeof window !== 'undefined') {
+              window.location.reload();
+            }
         }).catch((error) => {
             console.error('Error unblocking user:', error);
         });
+
+
     } else {
         // Deleting the user
         axios.delete(`https://music-back-1s59.onrender.com/artist/${artistId}`, {
@@ -96,10 +101,15 @@ export default function ArtistAdd() {
             console.log(response.data);
             // Optionally, update the state to reflect the deletion
             setGetData(prevData => prevData.filter(user => user.id !== artistId));
+            if(typeof window !== 'undefined') {
+              window.location.reload();
+            }
         })
         .catch((error) => {
             console.error('Error deleting user:', error);
         });
+
+
     }
 };
 
@@ -152,7 +162,7 @@ export default function ArtistAdd() {
   useEffect(() => {
     const userToken = Cookies.get("userToken");
 
-    axios.get('https://music-back-1s59.onrender.com/artist', {
+    axios.get('https://music-back-1s59.onrender.com/artist/admin/get', {
       headers: {
         Authorization: `Bearer ${userToken}`,
       },
@@ -341,7 +351,10 @@ export default function ArtistAdd() {
                         <p className={items.deletedAt ? styles.Block : styles.Active} onClick={() => handleStatusClick(items.id, items.deletedAt)}>{items.deletedAt ? 'Block' : 'Active'}</p>
                       </div>
                     </div>
-                  ))
+                  )
+
+                )
+
                 }
 
 
